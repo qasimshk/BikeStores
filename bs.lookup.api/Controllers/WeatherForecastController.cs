@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bs_appusers_api.Controllers
+namespace bs.lookup.api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

@@ -1,6 +1,6 @@
 using System;
 
-namespace bs_gateway_api
+namespace bs.gateway.api
 {
     public class WeatherForecast
     {

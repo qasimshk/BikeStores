@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bs_gateway_api
+namespace bs.gateway.api
 {
     public class Program
     {

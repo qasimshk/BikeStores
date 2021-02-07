@@ -1,6 +1,6 @@
 using System;
 
-namespace bs_appusers_api
+namespace bs.lookup.api
 {
     public class WeatherForecast
     {

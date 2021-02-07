@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bs_appusers_api
+namespace bs.identity.api
 {
     public class Program
     {
