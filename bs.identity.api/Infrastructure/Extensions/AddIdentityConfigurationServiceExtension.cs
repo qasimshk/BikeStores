@@ -39,7 +39,8 @@ namespace bs.identity.api.Infrastructure.Extensions
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddInMemoryIdentityResources(IdentityServerServiceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(IdentityServerServiceConfiguration.GetApiResources(microservices))
-                .AddInMemoryClients(IdentityServerServiceConfiguration.GetClients(identitysettings, microservices));
+                .AddInMemoryClients(IdentityServerServiceConfiguration.GetClients(identitysettings, microservices))
+                .AddProfileService<ProfileService>();
 
             return services;
         }

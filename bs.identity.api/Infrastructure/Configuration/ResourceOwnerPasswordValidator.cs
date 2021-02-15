@@ -16,11 +16,14 @@ namespace bs.identity.api.Infrastructure.Configuration
             if (context.UserName.Contains("test@test.com") && context.Password.Contains("test"))
             {
                 context.Result = new GrantValidationResult(
-                    subject: "1",
-                    authenticationMethod: "custom",
-                    claims: new List<Claim>
+                    "1",
+                    "custom",
+                    new List<Claim>
                             {
-                                new Claim("permission","staff")
+                                new(ClaimTypes.Name, "Muhammad Qasim"),
+                                new(ClaimTypes.Email, "test@test.com"),
+                                new(ClaimTypes.Role, "Staff"),
+                                new(ClaimTypes.Gender, "male"),
                             });
                 return;
             }

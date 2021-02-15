@@ -12,6 +12,7 @@ namespace bs.identity.api.Infrastructure.Configuration
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile()
+                //,new IdentityResources.Email()
             };
         }
 
@@ -31,7 +32,8 @@ namespace bs.identity.api.Infrastructure.Configuration
         {
             microservices.Add(IdentityServerConstants.StandardScopes.OpenId);
             microservices.Add(IdentityServerConstants.StandardScopes.Profile);
-
+            microservices.Add(IdentityServerConstants.StandardScopes.OfflineAccess);
+            
             return new List<Client>()
             {
                 new Client
@@ -43,7 +45,12 @@ namespace bs.identity.api.Infrastructure.Configuration
                     ClientSecrets =
                     {
                         new Secret(identityServerConfig.ClientSecret.Sha256())
-                    }
+                    },
+                    AllowOfflineAccess = true,
+                    AccessTokenType = AccessTokenType.Jwt,
+                    AccessTokenLifetime = 900, //Seconds,
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    RequireConsent = false
                 }
             };
         }
