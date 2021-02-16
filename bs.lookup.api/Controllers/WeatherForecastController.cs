@@ -23,7 +23,7 @@ namespace bs.lookup.api.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
