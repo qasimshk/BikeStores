@@ -1,9 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using bs.gateway.api.Configuration;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,12 +39,13 @@ namespace bs.gateway.api
                 .AddIdentityServerAuthentication(identityServerConfig.AuthenticationProviderKey, cfg =>
                 {
                     cfg.Authority = identityServerConfig.IdentityServerURL;
+                    cfg.SupportedTokens = SupportedTokens.Jwt;
                     cfg.RequireHttpsMetadata = false;
                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -56,7 +61,7 @@ namespace bs.gateway.api
             //    endpoints.MapControllers();
             //});
 
-            app.UseOcelot().Wait();
+            await app.UseOcelot();
         }
     }
 }

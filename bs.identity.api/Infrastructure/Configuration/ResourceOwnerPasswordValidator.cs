@@ -22,8 +22,8 @@ namespace bs.identity.api.Infrastructure.Configuration
                             {
                                 new(ClaimTypes.Name, "Muhammad Qasim"),
                                 new(ClaimTypes.Email, "test@test.com"),
-                                new(ClaimTypes.Role, "Staff"),
                                 new(ClaimTypes.Gender, "male"),
+                                new("permission","staff")
                             });
                 return;
             }
