@@ -1,9 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace bs.component.sharedkernal.Common
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseController : ControllerBase { }
+    [Route("api/[controller]")]
+    public abstract class BaseController : ControllerBase
+    {
+        private ISender mediator;
+
+        protected ISender _mediator => mediator ??= HttpContext.RequestServices.GetService<ISender>();
+    }
 }

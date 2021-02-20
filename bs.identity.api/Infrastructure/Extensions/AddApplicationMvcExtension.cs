@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using bs.component.sharedkernal.Filters;
+using FluentValidation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
 namespace bs.identity.api.Infrastructure.Extensions
@@ -10,7 +12,12 @@ namespace bs.identity.api.Infrastructure.Extensions
 
         public static IServiceCollection AddApplicationMvc(this IServiceCollection services)
         {
-            services.AddControllers();
+
+            services.AddControllers(options =>
+                    options.Filters.Add<ApiExceptionFilterAttribute>())
+                .AddFluentValidation();
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(ServiceVersion, new OpenApiInfo

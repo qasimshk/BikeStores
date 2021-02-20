@@ -1,11 +1,12 @@
 ﻿using bs.component.sharedkernal.Common;
 using bs.identity.api.Infrastructure.Configuration;
-using bs.identity.api.Infrastructure.Exceptions;
 using bs.identity.domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -17,13 +18,24 @@ namespace bs.identity.api.Controllers
     public class AccountController : BaseController
     {
         private readonly IHttpClientFactory _httpClient;
+        private readonly ILogger<AccountController> _logger;
         private readonly IdentityServerConfiguration _identityServerConfiguration;
 
-        public AccountController(IHttpClientFactory httpClient, IOptions<IdentityServerConfiguration> config)
+        public AccountController(IHttpClientFactory httpClient, IOptions<IdentityServerConfiguration> config, ILogger<AccountController> logger)
         {
             _httpClient = httpClient;
-            _identityServerConfiguration = config.Value ?? throw new IdentityDomainException(nameof(IdentityServerConfiguration));
+            _logger = logger;
+            _identityServerConfiguration = config.Value;
         }
+
+        [HttpGet]
+        public IActionResult PingService()
+        {
+            _logger.LogInformation("testing logs information");
+            _logger.LogError("testing logs error");
+            return Ok(DateTime.Now);
+        }
+
 
         //https://localhost:44325/.well-known/openid-configuration
 
