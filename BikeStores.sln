@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bs.identity.application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bs.component.core", "bs.component.core\bs.component.core.csproj", "{CCFD11A3-B4D0-46BB-9C88-A989041F62E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bs.identity.infrastructure", "bs.identity.infrastructure\bs.identity.infrastructure.csproj", "{375A7884-32C7-4C1D-A08A-7EFF5E497B08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bs.identity.infrastructure", "bs.identity.infrastructure\bs.identity.infrastructure.csproj", "{375A7884-32C7-4C1D-A08A-7EFF5E497B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

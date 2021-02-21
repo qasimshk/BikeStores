@@ -18,7 +18,8 @@ namespace bs.component.sharedkernal.Filters
             {
                 { typeof(ValidationException), HandleValidationException },
                 { typeof(NotFoundException), HandleNotFoundException },
-                { typeof(AuthenticationFailedException), HandleAuthenticationFailedException }
+                { typeof(AuthenticationFailedException), HandleAuthenticationFailedException },
+                { typeof(BadRequestException),HandleBadRequestException }
             };
         }
 
@@ -116,6 +117,21 @@ namespace bs.component.sharedkernal.Filters
             };
 
             context.Result = new UnauthorizedObjectResult(details);
+
+            context.ExceptionHandled = true;
+        }
+
+        private void HandleBadRequestException(ExceptionContext context)
+        {
+            var exception = context.Exception as BadRequestException;
+
+            var details = new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Detail = exception.Message
+            };
+
+            context.Result = new BadRequestObjectResult(details);
 
             context.ExceptionHandled = true;
         }

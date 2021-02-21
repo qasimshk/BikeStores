@@ -21,7 +21,7 @@ namespace bs.identity.api.Controllers
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Refresh([FromBody] string refreshToken)
         {
-            return Ok(await  _mediator.Send(new TokenRefreshCommand(refreshToken)));
+            return Ok(await _mediator.Send(new TokenRefreshCommand(refreshToken)));
         }
     }
 }
