@@ -26,6 +26,10 @@ namespace bs.identity.infrastructure.Persistence.Configurations
             builder.Property(e => e.PhoneNumber)
                 .IsRequired()
                 .HasMaxLength(20);
+
+            builder.Property(e => e.DateOfBirth)
+                .HasColumnType("datetime")
+                .IsRequired();
         }
     }
 }

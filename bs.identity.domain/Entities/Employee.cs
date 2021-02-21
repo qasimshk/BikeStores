@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace bs.identity.domain.Entities
 {
@@ -7,5 +8,6 @@ namespace bs.identity.domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int StoreId { get; set; }
+        public DateTime DateOfBirth { get; set; }
     }
 }
