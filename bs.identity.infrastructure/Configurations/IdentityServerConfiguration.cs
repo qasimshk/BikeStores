@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace bs.identity.api.Infrastructure.Configuration
+namespace bs.identity.infrastructure.Configurations
 {
     public class IdentityServerConfiguration
     {

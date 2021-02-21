@@ -1,4 +1,5 @@
-﻿using IdentityServer4;
+﻿using bs.identity.infrastructure.Configurations;
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 

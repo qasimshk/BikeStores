@@ -1,31 +1,40 @@
-﻿using IdentityServer4.Models;
+﻿using bs.identity.domain.Entities;
+using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace bs.identity.api.Infrastructure.Configuration
 {
     public class ResourceOwnerPasswordValidator : Controller, IResourceOwnerPasswordValidator
     {
+        private readonly SignInManager<Employee> _signInManager;
+        private readonly UserManager<Employee> _userManager;
+
+        public ResourceOwnerPasswordValidator(SignInManager<Employee> signInManager, UserManager<Employee> userManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            await Task.Delay(10);
+            var employee = await _userManager.FindByEmailAsync(context.UserName);
 
-            if (context.UserName.Contains("test@test.com") && context.Password.Contains("test"))
+            if (!employee.Equals(null))
             {
-                context.Result = new GrantValidationResult(
-                    "1",
-                    "custom",
-                    new List<Claim>
-                            {
-                                new(ClaimTypes.Name, "Muhammad Qasim"),
-                                new(ClaimTypes.Email, "test@test.com"),
-                                new(ClaimTypes.Gender, "male"),
-                                new("permission","staff")
-                            });
-                return;
+                var result =
+                    await _signInManager.CheckPasswordSignInAsync(employee, context.Password, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    if (result.Succeeded) context.Result = new GrantValidationResult(
+                        subject: employee.Id,
+                        authenticationMethod: "custom",
+                        claims: await _userManager.GetClaimsAsync(employee));
+                    return;
+                }
             }
 
             context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, "Invalid credential");

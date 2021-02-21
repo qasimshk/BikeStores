@@ -1,4 +1,5 @@
 ﻿using bs.identity.api.Infrastructure.Configuration;
+using bs.identity.infrastructure.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
