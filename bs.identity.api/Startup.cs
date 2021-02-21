@@ -11,6 +11,8 @@ namespace bs.identity.api
     public class Startup
     {
         private readonly IConfiguration _configuration;
+        private const string _swaggerJson = "/swagger/v1/swagger.json";
+        private const string _serviceName = "Identity Microservice";
 
         public Startup(IConfiguration configuration)
         {
@@ -21,10 +23,12 @@ namespace bs.identity.api
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddDbContext(_configuration)
                 .AddApplicationMvc()
                 .AddHandlers()
                 .AddApplicationLogging(_configuration)
-                .AddIdentityService(_configuration);
+                .AddIdentityService(_configuration)
+                .AddApplicationModules(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,13 +38,11 @@ namespace bs.identity.api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Microservice"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(_swaggerJson, _serviceName));
             }
 
             app.UseRouting();
-
             app.UseIdentityServer();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

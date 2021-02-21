@@ -16,14 +16,14 @@ namespace bs.identity.application.Commands.TokenAuthenticate
 
         public async Task<UserLoginResponseDto> Handle(TokenAuthenticateCommand request, CancellationToken cancellationToken)
         {
-            throw new AuthenticationFailedException("Invalid credentials");
+            //throw new AuthenticationFailedException("Invalid credentials");
 
-            //return await Task.Run(() => new UserLoginResponseDto
-            //{
-            //    ExpireIn = 1234,
-            //    StatusCode = HttpStatusCode.Accepted,
-            //    Token = "testing token handler"
-            //});
+            return await Task.Run(() => new UserLoginResponseDto
+            {
+                ExpireIn = 1234,
+                StatusCode = HttpStatusCode.Accepted,
+                Token = "testing token handler"
+            });
         }
     }
 }
