@@ -10,7 +10,7 @@ namespace bs.identity.api.Controllers
 {
     public class TokenController : BaseController
     {
-        [HttpPost("authenticate")]
+        [HttpPost("Authenticate")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType((int)HttpStatusCode.BadGateway)]
@@ -19,7 +19,7 @@ namespace bs.identity.api.Controllers
             return Ok(await _mediator.Send(new TokenAuthenticateCommand(request)));
         }
 
-        [HttpPost("refresh")]
+        [HttpPost("Refresh")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadGateway)]
         public async Task<IActionResult> Refresh([FromBody] string refreshToken)

@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation;
 
 namespace bs.identity.api.Controllers
 {
     public class EmployeeController : BaseController
     {
-        [HttpGet("all")]
+        [HttpGet("All")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult All([FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
@@ -29,12 +30,40 @@ namespace bs.identity.api.Controllers
         [HttpGet("{employeeId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult Employee(Guid employeeId)
+        public async Task<IActionResult> Employee(Guid employeeId)
         {
+            if (employeeId == Guid.Empty)
+            {
+                return BadRequest();
+            }
+            return Ok(await _mediator.Send(new GetEmployeeInformationQuery(employeeId)));
+        }
+
+        [HttpGet("{employeeId}/EmailConfirmed")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult EmailConfirmed (Guid employeeId)
+        {
+            if (employeeId == Guid.Empty)
+            {
+                return BadRequest();
+            }
             return Ok();
         }
-        
-        [HttpGet("search")]
+
+        [HttpGet("{employeeId}/PhoneNumberConfirmed")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult PhoneNumberConfirmed(Guid employeeId)
+        {
+            if (employeeId == Guid.Empty)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+
+        [HttpGet("Search")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public IActionResult Employee([FromQuery] EmployeeFilter filter)
@@ -43,7 +72,7 @@ namespace bs.identity.api.Controllers
             return Ok();
         }
 
-        [HttpPost("register")]
+        [HttpPost("Register")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadGateway)]
         public async Task<IActionResult> Register([FromBody] EmployeeRegisterRequestDto request)
@@ -51,12 +80,16 @@ namespace bs.identity.api.Controllers
             return Ok(await _mediator.Send(_mapper.Map<EmployeeRegistrationCommand>(request)));
         }
 
-        [HttpPut("{employeeId}/update")]
+        [HttpPut("{employeeId}/Update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadGateway)]
-        public IActionResult EmployeeUpdate([FromRoute] Guid employeeId)
+        public IActionResult EmployeeUpdate([FromRoute] Guid employeeId, [FromBody] EmployeeUpdateRequestDto request)
         {
+            if (employeeId == Guid.Empty)
+            {
+                return BadRequest();
+            }
             return Ok();
         }
     }
