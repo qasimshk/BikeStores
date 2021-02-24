@@ -2,7 +2,6 @@
 using bs.identity.application.Commands.TokenAuthenticate;
 using bs.identity.application.Commands.TokenRefresh;
 using bs.identity.domain.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,8 +12,8 @@ namespace bs.identity.api.Controllers
     {
         [HttpPost("authenticate")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
         public async Task<IActionResult> Authorize([FromBody] UserLoginRequestDto request)
         {
             return Ok(await _mediator.Send(new TokenAuthenticateCommand(request)));
@@ -22,7 +21,7 @@ namespace bs.identity.api.Controllers
 
         [HttpPost("refresh")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
         public async Task<IActionResult> Refresh([FromBody] string refreshToken)
         {
             return Ok(await _mediator.Send(new TokenRefreshCommand(refreshToken)));
