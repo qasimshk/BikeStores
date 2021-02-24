@@ -30,6 +30,9 @@ namespace bs.identity.infrastructure.Persistence.Configurations
             builder.Property(e => e.DateOfBirth)
                 .HasColumnType("datetime")
                 .IsRequired();
+
+            builder.Property(e => e.Designation)
+                .IsRequired();
         }
     }
 }

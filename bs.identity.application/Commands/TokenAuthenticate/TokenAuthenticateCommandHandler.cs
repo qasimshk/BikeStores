@@ -34,7 +34,7 @@ namespace bs.identity.application.Commands.TokenAuthenticate
         {
             var employee = await _userManager.FindByEmailAsync(request.EmailAddress);
             _logger.LogInformation($"Request send by email: {request.EmailAddress}");
-
+            
             // Checking if user with this email exist
             if (employee is null)
             {

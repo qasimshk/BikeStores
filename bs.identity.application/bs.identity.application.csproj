@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
     <ProjectReference Include="..\bs.identity.domain\bs.identity.domain.csproj" />
+    <ProjectReference Include="..\bs.identity.infrastructure\bs.identity.infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

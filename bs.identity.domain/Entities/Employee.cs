@@ -1,4 +1,5 @@
 ﻿using System;
+using bs.identity.domain.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace bs.identity.domain.Entities
@@ -9,5 +10,11 @@ namespace bs.identity.domain.Entities
         public string LastName { get; set; }
         public int StoreId { get; set; }
         public DateTime DateOfBirth { get; set; }
+        public EmployeeRoles Designation { get; set; }
+
+        public string FullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 }

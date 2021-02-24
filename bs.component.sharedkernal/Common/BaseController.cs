@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +10,9 @@ namespace bs.component.sharedkernal.Common
     public abstract class BaseController : ControllerBase
     {
         private ISender mediator;
+        private IMapper mapper;
 
         protected ISender _mediator => mediator ??= HttpContext.RequestServices.GetService<ISender>();
+        protected IMapper _mapper => mapper ??= HttpContext.RequestServices.GetService<IMapper>();
     }
 }
