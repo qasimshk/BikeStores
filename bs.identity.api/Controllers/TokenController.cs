@@ -10,14 +10,14 @@ namespace bs.identity.api.Controllers
 {
     public class TokenController : BaseController
     {
-        [HttpPost("Authenticate")]
+        [HttpPost("authenticate")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Authorize([FromBody] UserLoginRequestDto request)
         {
             return Ok(await _mediator.Send(new TokenAuthenticateCommand(request)));
         }
 
-        [HttpPost("Refresh")]
+        [HttpPost("refresh")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Refresh([FromBody] string refreshToken)
         {
