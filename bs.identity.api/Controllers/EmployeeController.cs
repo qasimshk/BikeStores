@@ -1,32 +1,18 @@
 ﻿using bs.component.sharedkernal.Common;
+using bs.identity.application.Commands.EmployeeEmailConfirmed;
+using bs.identity.application.Commands.EmployeePhoneNumberConfirmed;
 using bs.identity.application.Commands.EmployeeRegistration;
 using bs.identity.domain.Models;
+using bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation;
 
 namespace bs.identity.api.Controllers
 {
     public class EmployeeController : BaseController
     {
-        [HttpGet("All")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult All([FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
-        {
-            /* Example for paging
-               var itemsOnPage = await _catalogContext.CatalogItems
-                .Where(c => c.Name.StartsWith(name))
-                .Skip(pageSize * pageIndex)
-                .Take(pageSize)
-                .ToListAsync();
-             */
-
-            return Ok();
-        }
-
         [HttpGet("{employeeId}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -39,39 +25,31 @@ namespace bs.identity.api.Controllers
             return Ok(await _mediator.Send(new GetEmployeeInformationQuery(employeeId)));
         }
 
-        [HttpGet("{employeeId}/EmailConfirmed")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult EmailConfirmed (Guid employeeId)
-        {
-            if (employeeId == Guid.Empty)
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
-
         [HttpGet("{employeeId}/PhoneNumberConfirmed")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult PhoneNumberConfirmed(Guid employeeId)
+        public async Task<IActionResult> PhoneNumberConfirmed(Guid employeeId)
         {
             if (employeeId == Guid.Empty)
             {
                 return BadRequest();
             }
-            return Ok();
+            return Ok(await _mediator.Send(new EmployeePhoneNumberConfirmedCommand(employeeId)));
         }
 
-        [HttpGet("Search")]
+        [HttpPost("{employeeId}/EmailConfirmed")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult Employee([FromQuery] EmployeeFilter filter)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> EmailConfirmed (Guid employeeId, [FromBody] string token)
         {
-            // in store case filter how many employee are working in the perticular store
-            return Ok();
+            if (employeeId == Guid.Empty)
+            {
+                return BadRequest();
+            }
+            return Ok(await _mediator.Send(new EmployeeEmailConfirmedCommand(employeeId,token)));
         }
-
+        
         [HttpPost("Register")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadGateway)]

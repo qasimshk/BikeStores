@@ -1,4 +1,6 @@
-﻿using bs.component.sharedkernal.Common;
+﻿using System;
+using bs.component.sharedkernal.Common;
+using bs.identity.application.Commands.EmployeeEmailConfirmedToken;
 using bs.identity.application.Commands.TokenAuthenticate;
 using bs.identity.application.Commands.TokenRefresh;
 using bs.identity.domain.Models;
@@ -13,7 +15,7 @@ namespace bs.identity.api.Controllers
         [HttpPost("Authenticate")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Authorize([FromBody] UserLoginRequestDto request)
         {
             return Ok(await _mediator.Send(new TokenAuthenticateCommand(request)));
@@ -21,10 +23,18 @@ namespace bs.identity.api.Controllers
 
         [HttpPost("Refresh")]
         [ProducesResponseType(typeof(UserLoginResponseDto), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.BadGateway)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Refresh([FromBody] string refreshToken)
         {
             return Ok(await _mediator.Send(new TokenRefreshCommand(refreshToken)));
+        }
+
+        [HttpGet("Employee/{employeeId}/EmailConfirmed")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> EmailConfirmed([FromRoute] Guid employeeId)
+        {
+            return Ok(await _mediator.Send(new EmployeeEmailConfirmedTokenCommand(employeeId)));
         }
     }
 }

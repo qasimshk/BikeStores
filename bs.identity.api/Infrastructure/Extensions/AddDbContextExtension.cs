@@ -41,6 +41,7 @@ namespace bs.identity.api.Infrastructure.Extensions
                 options.Lockout.AllowedForNewUsers = identityconfiguration.LockoutAllowedForNewUsers;
 
                 // User settings
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = identityconfiguration.UserRequireUniqueEmail;
             });
 

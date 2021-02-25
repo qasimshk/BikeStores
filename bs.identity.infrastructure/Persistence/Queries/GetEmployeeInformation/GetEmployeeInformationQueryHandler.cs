@@ -26,7 +26,7 @@ namespace bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation
 
             if (employee == null)
             {
-                throw new NotFoundException("employee not found");
+                throw new NotFoundException("Employee not found");
             }
 
             return _mapper.Map<EmployeeInformationDto>(employee);

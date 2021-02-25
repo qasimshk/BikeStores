@@ -24,8 +24,7 @@ namespace bs.identity.api.Infrastructure.Configuration
 
             if (!employee.Equals(null))
             {
-                var result =
-                    await _signInManager.CheckPasswordSignInAsync(employee, context.Password, lockoutOnFailure: false);
+                var result = await _signInManager.CheckPasswordSignInAsync(employee, context.Password, lockoutOnFailure: true);
 
                 if (result.Succeeded)
                 {

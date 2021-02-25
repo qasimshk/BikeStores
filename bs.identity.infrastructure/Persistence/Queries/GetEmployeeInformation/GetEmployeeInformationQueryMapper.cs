@@ -17,8 +17,12 @@ namespace bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation
                     opt => opt.MapFrom(s => DateTime.Now.Year - s.DateOfBirth.Year))
                 .ForMember(d => d.EmailAddress,
                     opt => opt.MapFrom(s => s.Email))
+                .ForMember(d => d.EmailAddressVerified,
+                    opt => opt.MapFrom(s => (s.EmailConfirmed) ? "Yes" : "No"))
                 .ForMember(d => d.PhoneNumber,
                     opt => opt.MapFrom(s => FormatPhoneNumber(s.PhoneNumber)))
+                .ForMember(d => d.PhoneNumberVerified,
+                    opt => opt.MapFrom(s => (s.PhoneNumberConfirmed) ? "Yes" : "No"))
                 .ForMember(d => d.Designation,
                     opt => opt.MapFrom(s => s.Designation.ToString()));
         }
