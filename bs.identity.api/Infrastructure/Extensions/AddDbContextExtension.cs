@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace bs.identity.api.Infrastructure.Extensions
 {
@@ -44,6 +46,9 @@ namespace bs.identity.api.Infrastructure.Extensions
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = identityconfiguration.UserRequireUniqueEmail;
             });
+
+            services.AddSingleton<IDbConnection>(
+                new SqlConnection(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
