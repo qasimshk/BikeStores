@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,8 +71,7 @@ namespace bs.identity.application.Commands.TokenAuthenticate
             {
                 AccessToken = JObject.Parse(serviceResponse)["access_token"].Value<string>(),
                 RefreshToken = JObject.Parse(serviceResponse)["refresh_token"].Value<string>(),
-                ExpireIn = JObject.Parse(serviceResponse)["expires_in"].Value<int>(),
-                StatusCode = HttpStatusCode.Accepted
+                ExpireIn = JObject.Parse(serviceResponse)["expires_in"].Value<int>()
             };
         }
     }

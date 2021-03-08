@@ -37,7 +37,7 @@ namespace bs.identity.application.Commands.EmployeeRegistration
 
             if (!userResult.Succeeded)
             {
-                LogErrors(userResult.Errors, _logger);
+                LogErrors(userResult.Errors);
 
                 throw new ValidationException(userResult.Errors.Select(error => new ValidationFailure("", error.Description)));
             }
@@ -52,7 +52,7 @@ namespace bs.identity.application.Commands.EmployeeRegistration
 
             if (!claimResult.Succeeded)
             {
-                LogErrors(claimResult.Errors, _logger);
+                LogErrors(claimResult.Errors);
 
                 throw new ValidationException(claimResult.Errors.Select(error => new ValidationFailure("", error.Description)));
             }
@@ -60,7 +60,7 @@ namespace bs.identity.application.Commands.EmployeeRegistration
             return Unit.Value;
         }
 
-        private void LogErrors(IEnumerable<IdentityError> errors, ILogger logger)
+        private void LogErrors(IEnumerable<IdentityError> errors)
         {
             foreach (var error in errors)
             {

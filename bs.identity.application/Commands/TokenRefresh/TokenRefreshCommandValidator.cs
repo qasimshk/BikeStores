@@ -1,13 +1,12 @@
-﻿using bs.identity.application.Commands.TokenAuthenticate;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace bs.identity.application.Commands.TokenRefresh
 {
-    public class TokenRefreshCommandValidator : AbstractValidator<TokenAuthenticateCommand>
+    public class TokenRefreshCommandValidator : AbstractValidator<TokenRefreshCommand>
     {
         public TokenRefreshCommandValidator()
         {
-            RuleFor(x => x.EmailAddress)
+            RuleFor(x => x.RefreshToken)
                 .Cascade(cascadeMode: CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide refresh token")
                 .MaximumLength(65).WithMessage("invalid character count");

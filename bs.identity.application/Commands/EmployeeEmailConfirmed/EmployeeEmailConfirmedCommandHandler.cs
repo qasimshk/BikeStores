@@ -27,9 +27,11 @@ namespace bs.identity.application.Commands.EmployeeEmailConfirmed
                 throw new NotFoundException("Employee not found");
             }
 
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(employee);
+
             if (!await _userManager.IsEmailConfirmedAsync(employee))
             {
-                var result = await _userManager.ConfirmEmailAsync(employee, request.Token);
+                var result = await _userManager.ConfirmEmailAsync(employee, token);
 
                 if (!result.Succeeded)
                 {

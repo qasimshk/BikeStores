@@ -48,8 +48,7 @@ namespace bs.identity.api.Infrastructure.Configuration
                     },
                     AllowOfflineAccess = true,
                     AccessTokenType = AccessTokenType.Jwt,
-                    AccessTokenLifetime = 900, //Seconds,
-                    //AlwaysIncludeUserClaimsInIdToken = true, // Put all the claims in the id token
+                    AccessTokenLifetime = 900, //Seconds
                     RequireConsent = false
                 }
             };

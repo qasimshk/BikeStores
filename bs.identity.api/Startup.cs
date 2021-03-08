@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using bs.identity.application.Extensions;
+using Microsoft.AspNet.OData.Extensions;
 
 namespace bs.identity.api
 {
@@ -45,6 +46,8 @@ namespace bs.identity.api
             app.UseIdentityServer();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Expand().Filter().Count().OrderBy();
                 endpoints.MapControllers();
             });
         }

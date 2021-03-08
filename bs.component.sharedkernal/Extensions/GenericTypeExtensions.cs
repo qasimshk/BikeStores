@@ -34,10 +34,14 @@ namespace bs.component.sharedkernal.Extensions
             {
                 if (pi.PropertyType == typeof(int?) || pi.PropertyType == typeof(int))
                 {
-                    var value = (int) pi.GetValue(obj);
-                    if (value > 0)
+                    var value = pi.GetValue(obj);
+
+                    if (value is int i)
                     {
-                        return true;
+                        if (i > 0)
+                        {
+                            return true;
+                        }
                     }
                 }
 

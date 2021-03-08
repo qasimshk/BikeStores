@@ -1,10 +1,9 @@
-﻿using bs.identity.domain.Abstractions;
+﻿using bs.component.sharedkernal.Exceptions;
+using bs.identity.domain.Abstractions;
 using bs.identity.domain.Models;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +27,7 @@ namespace bs.identity.application.Commands.TokenRefresh
 
             if (!identityServiceResponse.IsSuccessStatusCode)
             {
-                throw new AuthenticationException("Invalid token");
+                throw new AuthenticationFailedException("Refresh token has expired");
             }
 
             var serviceResponse = await identityServiceResponse.Content.ReadAsStringAsync();
@@ -37,8 +36,7 @@ namespace bs.identity.application.Commands.TokenRefresh
             {
                 AccessToken = JObject.Parse(serviceResponse)["access_token"].Value<string>(),
                 RefreshToken = JObject.Parse(serviceResponse)["refresh_token"].Value<string>(),
-                ExpireIn = JObject.Parse(serviceResponse)["expires_in"].Value<int>(),
-                StatusCode = HttpStatusCode.Accepted
+                ExpireIn = JObject.Parse(serviceResponse)["expires_in"].Value<int>()
             };
         }
     }

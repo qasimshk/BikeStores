@@ -34,7 +34,7 @@ namespace bs.identity.infrastructure.Persistence.Queries.SearchEmployees
             var builder = new SqlBuilder();
 
             var query = builder.AddTemplate(
-                "SELECT [Id],[FirstName],[LastName],[Email],[EmailConfirmed],[PhoneNumber],[PhoneNumberConfirmed],[Designation] FROM [AspNetUsers] /**where**/");
+                "SELECT [Id],[FirstName],[LastName],[Email],[EmailConfirmed],[PhoneNumber],[PhoneNumberConfirmed],[Designation],[DateOfBirth] FROM [AspNetUsers] /**where**/");
 
             if (!string.IsNullOrEmpty(request.FirstName))
                 builder.Where("FirstName = @FirstName", new {request.FirstName});
