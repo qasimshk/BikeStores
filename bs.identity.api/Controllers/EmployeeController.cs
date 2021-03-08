@@ -3,11 +3,13 @@ using bs.identity.application.Commands.EmployeeEmailConfirmed;
 using bs.identity.application.Commands.EmployeePhoneNumberConfirmed;
 using bs.identity.application.Commands.EmployeeRegistration;
 using bs.identity.domain.Models;
+using bs.identity.infrastructure.Persistence.Filters;
 using bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using bs.identity.infrastructure.Persistence.Queries.SearchEmployees;
 
 namespace bs.identity.api.Controllers
 {
@@ -25,7 +27,15 @@ namespace bs.identity.api.Controllers
             return Ok(await _mediator.Send(new GetEmployeeInformationQuery(employeeId)));
         }
 
-        [HttpGet("{employeeId}/PhoneNumberConfirmed")]
+        [HttpGet("Search")]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
+        public async Task<IActionResult> EmployeeSearch([FromQuery] EmployeeFilter filter)
+        {
+            return Ok(await _mediator.Send(new SearchEmployeesQuery(filter)));
+        }
+
+        [HttpPatch("{employeeId}/PhoneNumberConfirmed")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> PhoneNumberConfirmed(Guid employeeId)
@@ -37,7 +47,7 @@ namespace bs.identity.api.Controllers
             return Ok(await _mediator.Send(new EmployeePhoneNumberConfirmedCommand(employeeId)));
         }
 
-        [HttpPost("{employeeId}/EmailConfirmed")]
+        [HttpPatch("{employeeId}/EmailConfirmed")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]

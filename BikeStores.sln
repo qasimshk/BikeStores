@@ -29,9 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{7FA0ED3D-33EB-46A2-9810-F6971DA52A84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bs.identity.domain", "bs.identity.domain\bs.identity.domain.csproj", "{24846808-3E2C-4563-910F-03855D9255AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bs.identity.domain", "bs.identity.domain\bs.identity.domain.csproj", "{24846808-3E2C-4563-910F-03855D9255AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bs.identity.application", "bs.identity.application\bs.identity.application.csproj", "{8F77CA0F-910A-4818-B0FD-0539A58D7A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bs.identity.application", "bs.identity.application\bs.identity.application.csproj", "{8F77CA0F-910A-4818-B0FD-0539A58D7A6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{C71F4CF4-F5F7-4653-9794-8B863B310F35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Audit", "Audit", "{8892A6B0-6C5D-4EA5-A34A-3551374E5BEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,8 @@ Global
 		{7FA0ED3D-33EB-46A2-9810-F6971DA52A84} = {F8AB2894-56FC-436C-8020-2F5659FABBB8}
 		{24846808-3E2C-4563-910F-03855D9255AB} = {C85EF940-C61A-4CA2-BD55-CF9FF27B09AA}
 		{8F77CA0F-910A-4818-B0FD-0539A58D7A6A} = {C85EF940-C61A-4CA2-BD55-CF9FF27B09AA}
+		{C71F4CF4-F5F7-4653-9794-8B863B310F35} = {F8AB2894-56FC-436C-8020-2F5659FABBB8}
+		{8892A6B0-6C5D-4EA5-A34A-3551374E5BEB} = {F8AB2894-56FC-436C-8020-2F5659FABBB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D04EA36-5992-4C97-B8AD-0C70BBBB8466}
