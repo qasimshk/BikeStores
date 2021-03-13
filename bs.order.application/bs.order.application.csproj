@@ -4,4 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Abstractions\" />
+    <Folder Include="DomainEvents\" />
+  </ItemGroup>
+
 </Project>

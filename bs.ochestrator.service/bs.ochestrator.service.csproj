@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>dotnet-bs.order.service-AB3FE937-4CB8-402B-87B2-AD785B3C77F4</UserSecretsId>
+    <UserSecretsId>dotnet-bs.ochestrator.service-FF026294-5590-47CB-8B48-579C5E2F7A6F</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,9 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Consumers\" />
-    <Folder Include="Activities\" />
     <Folder Include="Infrastructure\Configurations\" />
-    <Folder Include="Infrastructure\Extensions\" />
+    <Folder Include="Infrastructure\Extractions\" />
+    <Folder Include="Workflows\" />
   </ItemGroup>
 </Project>

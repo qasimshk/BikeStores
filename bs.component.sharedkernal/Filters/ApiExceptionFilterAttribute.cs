@@ -53,7 +53,10 @@ namespace bs.component.sharedkernal.Filters
             var details = new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
-                Title = "An error occurred while processing your request."
+                Title = "An error occurred while processing your request.",
+#if DEBUG
+                Detail = context.Exception.Message
+#endif
             };
 
             context.Result = new ObjectResult(details)

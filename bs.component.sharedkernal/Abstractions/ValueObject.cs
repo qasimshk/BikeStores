@@ -19,7 +19,7 @@ namespace bs.component.sharedkernal.Abstractions
             return !(EqualOperator(left, right));
         }
 
-        protected abstract IEnumerable<object> GetAtomicValues();
+        protected abstract IEnumerable<object> GetEqualityComponents();
 
         public override bool Equals(object obj)
         {
@@ -28,8 +28,8 @@ namespace bs.component.sharedkernal.Abstractions
                 return false;
             }
             ValueObject other = (ValueObject)obj;
-            IEnumerator<object> thisValues = GetAtomicValues().GetEnumerator();
-            IEnumerator<object> otherValues = other.GetAtomicValues().GetEnumerator();
+            IEnumerator<object> thisValues = GetEqualityComponents().GetEnumerator();
+            IEnumerator<object> otherValues = other.GetEqualityComponents().GetEnumerator();
             while (thisValues.MoveNext() && otherValues.MoveNext())
             {
                 if (ReferenceEquals(thisValues.Current, null) ^ ReferenceEquals(otherValues.Current, null))
@@ -46,7 +46,7 @@ namespace bs.component.sharedkernal.Abstractions
 
         public override int GetHashCode()
         {
-            return GetAtomicValues()
+            return GetEqualityComponents()
                 .Select(x => x != null ? x.GetHashCode() : 0)
                 .Aggregate((x, y) => x ^ y);
         }

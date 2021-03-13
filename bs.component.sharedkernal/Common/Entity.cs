@@ -24,8 +24,8 @@ namespace bs.component.sharedkernal.Common
         public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
 
         public void AddDomainEvent(IDomainEvent eventItem)
-        {
-            _domainEvents = _domainEvents ?? new List<IDomainEvent>();
+        {            
+            _domainEvents ??= new List<IDomainEvent>();
             _domainEvents.Add(eventItem);
         }
 
