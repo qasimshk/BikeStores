@@ -5,6 +5,8 @@ namespace bs.order.domain.Entities
 {
     public class OrderItem
     {
+        protected OrderItem() { }
+
         public OrderItem(Guid productRef, string productName, int quantity, double individualPrice)
         {
             if (quantity <= 0)

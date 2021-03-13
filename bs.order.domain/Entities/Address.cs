@@ -5,6 +5,8 @@ namespace bs.order.domain.Entities
 {
     public class Address : ValueObject
     {
+        protected Address() { }
+
         public Address(string street, string city, string country, string postCode)
         {
             Street = street;

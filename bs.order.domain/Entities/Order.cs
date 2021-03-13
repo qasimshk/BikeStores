@@ -8,6 +8,8 @@ namespace bs.order.domain.Entities
 {
     public class Order : Entity, IAggregateRoot
     {
+        protected Order() { }
+
         public Order(Guid orderRef, OrderStatus status, Payment payment, Customer customer, Address deliveryAddress, List<OrderItem> orderItems)
         {
             OrderRef = orderRef;

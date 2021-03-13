@@ -4,16 +4,19 @@ namespace bs.order.domain.Entities
 {
     public class Consent : Entity
     {
-        public Consent(Customer customer, bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost)
+        protected Consent() { }
+
+        public Consent(bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost, int customerId)
         {
-            Customer = customer;
             ContactByEmail = contactByEmail;
             ContactByText = contactByText;
             ContactByCall = contactByCall;
             ContactByPost = contactByPost;
+            _customerId = customerId;
         }
 
-        public Customer Customer { get; private set; }
+        private int _customerId { get; set; }
+        public virtual Customer Customer { get; }
         public bool ContactByEmail { get; private set; }
         public bool ContactByText { get; private set; }
         public bool ContactByCall { get; private set; }

@@ -7,9 +7,9 @@ namespace bs.order.domain.Events
 {
     public class AddPaymentDomainEvent : DomainEventBase
     {
-        public AddPaymentDomainEvent(Customer customer, Guid paymentRef, double amount, DateTime transactionDate, PaymentType paymentType, TransactionStatus status, CardDetail cardDetail = null)
+        public AddPaymentDomainEvent(int customerId, Guid paymentRef, double amount, DateTime transactionDate, PaymentType paymentType, TransactionStatus status, int? cardDetailId = default)
         {
-            Payment = new Payment(customer, paymentRef, amount, transactionDate, paymentType, status, cardDetail);
+            Payment = new Payment(customerId, paymentRef, amount, transactionDate, paymentType, status, cardDetailId);
         }
 
         public Payment Payment { get; private set; }

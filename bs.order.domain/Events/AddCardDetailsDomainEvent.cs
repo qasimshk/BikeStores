@@ -7,9 +7,9 @@ namespace bs.order.domain.Events
 {
     public class AddCardDetailsDomainEvent : DomainEventBase
     {
-        public AddCardDetailsDomainEvent(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, Customer customer)
+        public AddCardDetailsDomainEvent(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, int customerId)
         {
-            CardDetails = new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, customer);
+            CardDetails = new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, customerId);
         }
 
         public CardDetail CardDetails { get; private set; }

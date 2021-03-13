@@ -9,16 +9,16 @@ using System.Linq;
 
 namespace bs.order.domain.Entities
 {
-    public class Customer : Entity, IAggregateRoot
+    public sealed class Customer : Entity, IAggregateRoot
     {
         private readonly List<CardDetail> _cardDetails;
 
-        protected Customer()
+        private Customer()
         {
             _cardDetails = new List<CardDetail>();
         }
 
-        public Customer(string firstName, string lastName, DateTime dob, string phoneNumber, string emailAddress, Address billingAddress, string cardHolderName = null, long? cardNumber = 0, DateTime? expiration = null, int? securityNumber = 0, CardType? cardType = null)
+        public Customer(string firstName, string lastName, DateTime dob, string phoneNumber, string emailAddress, Address billingAddress, bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost, string cardHolderName = null, long? cardNumber = 0, DateTime? expiration = null, int? securityNumber = 0, CardType? cardType = null)
         {
             if (dob.Date >= DateTime.Now.Date)
             {
@@ -31,10 +31,11 @@ namespace bs.order.domain.Entities
             EmailAddress = emailAddress;
             BillingAddress = billingAddress;
             Dob = dob;
-
+            AddDomainEvent(new AddOrUpdateCustomerConsentDomainEvent(contactByEmail, contactByText, contactByCall, contactByPost, Id));
+            
             if (!string.IsNullOrEmpty(cardHolderName) && cardNumber is not null && expiration is not null && securityNumber is not null && cardType is not null)
             {
-                AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, this));
+                AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, Id));
             }
         }
 
@@ -44,7 +45,7 @@ namespace bs.order.domain.Entities
         public string PhoneNumber { get; private set; }
         public string EmailAddress { get; private set; }
         public Address BillingAddress { get; private set; }
-        public Consent Consents { get; set; }
+        public Consent Consents { get; }
         public IReadOnlyCollection<CardDetail> CardDetails => _cardDetails;
 
         public string GetFullName => $"{FirstName} {LastName}";
@@ -52,13 +53,13 @@ namespace bs.order.domain.Entities
         public int GetAge => DateTime.Now.Year - Dob.Year;
 
         public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType) =>
-            AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber, expiration, securityNumber, cardType, this));
+            AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id));
 
         public CardDetail GetCardDetailById(int cardId) => this.CardDetails.First(c => c.Id == cardId);
 
         public void PayByCash(Guid paymentRef, double amount, DateTime transactionDate)
         {
-            AddDomainEvent(new AddPaymentDomainEvent(this, paymentRef, amount, transactionDate, PaymentType.Cash, TransactionStatus.Successful, null));
+            AddDomainEvent(new AddPaymentDomainEvent(Id, paymentRef, amount, transactionDate, PaymentType.Cash, TransactionStatus.Successful));
         }
     }
 }

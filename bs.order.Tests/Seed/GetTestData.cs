@@ -1,37 +1,78 @@
-﻿using bs.order.domain.Entities;
+﻿using bs.order.Tests.Models;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using bs.order.domain.Enums;
 
 namespace bs.order.Tests.Seed
 {
     public static class GetTestData
     {
-        public static List<Customer> GetFakeCustomer()
+        public static List<MockCustomer> GetFakeCustomer()
         {
-            return new List<Customer>
+            return new()
             {
-                new Customer("Peter", "Parker", DateTime.Parse("1990-01-01"), "123456789", "test1@test.com", GetFakeAddress()),
-                
-                new Customer("James", "Mary", DateTime.Now, "123456789", "test2@test.com", GetFakeAddress()),
-                
-                new Customer("John", 
-                    "Elizabeth", 
-                    DateTime.Parse("1986-02-02"), 
-                    "123456789", 
-                    "test3@test.com", 
-                    GetFakeAddress(),
-                    "John",
-                    1234567890123456,
-                    DateTime.Parse("2022-02-02"),
-                    123,
-                    CardType.Visa)
+                new MockCustomer
+                {
+                    FirstName = "Peter",
+                    LastName = "Parker",
+                    Dob = DateTime.Parse("1990-01-01"),
+                    EmailAddress = "test1@test.com",
+                    PhoneNumber = "123456789"
+                },
+                new MockCustomer
+                {
+                    FirstName = "James",
+                    LastName = "Mary",
+                    Dob = DateTime.Now.Date,
+                    EmailAddress = "test2@test.com",
+                    PhoneNumber = "123456789"
+                },
+                new MockCustomer
+                {
+                    FirstName = "John",
+                    LastName = "Elizabeth",
+                    Dob = DateTime.Parse("1986-02-02"),
+                    EmailAddress = "test3@test.com",
+                    PhoneNumber = "123456789"
+                }
             };
         }
 
-        public static Address GetFakeAddress()
+        public static MockAddress GetFakeAddress()
         {
-            return new Address("Test Street", "Test City", "Test Country", "Test PostCode");
+            return new MockAddress
+            {
+                Street = "Test Street",
+                City = "Test City",
+                PostCode = "Test PostCode",
+                Country = "Test PostCode",
+
+            };
+        }
+
+        public static MockCardDetails GetFakeCardDetails(int record)
+        {
+            return record switch
+            {
+               1 => new MockCardDetails
+               {
+                   CardHolderName = "Peter Parker",
+                   CardNumber = 5555555555554444,
+                   CardType = CardType.Master,
+                   Expiration = DateTime.Parse("2050-09-09"),
+                   SecurityNumber = 123
+               },
+               2 => new MockCardDetails
+               {
+                   CardHolderName = "John Elizabeth",
+                   CardNumber = 4012888888881881,
+                   CardType = CardType.Visa,
+                   Expiration = DateTime.Parse("2010-09-09"),
+                   SecurityNumber = 123
+               },
+               _ => default
+            };
         }
     }
 }
