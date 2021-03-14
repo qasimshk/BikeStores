@@ -1,4 +1,4 @@
-﻿using bs.component.sharedkernal.Abstractions;
+﻿using MediatR;
 using System;
 using System.Collections.Generic;
 
@@ -20,15 +20,19 @@ namespace bs.component.sharedkernal.Common
             }
         }
 
-        private List<IDomainEvent> _domainEvents;
-        public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents?.AsReadOnly();
+        private List<INotification> _domainEvents;
+        public IReadOnlyCollection<INotification> DomainEvents => _domainEvents?.AsReadOnly();
 
-        public void AddDomainEvent(IDomainEvent eventItem)
-        {            
-            _domainEvents ??= new List<IDomainEvent>();
+        public void AddDomainEvent(INotification eventItem)
+        {
+            _domainEvents ??= new List<INotification>();
             _domainEvents.Add(eventItem);
         }
 
+        public void RemoveDomainEvent(INotification eventItem)
+        {
+            _domainEvents?.Remove(eventItem);
+        }
 
         public void ClearDomainEvents()
         {

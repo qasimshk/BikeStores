@@ -1,9 +1,9 @@
-﻿using bs.component.sharedkernal.Common;
-using bs.order.domain.Entities;
+﻿using bs.order.domain.Entities;
+using MediatR;
 
 namespace bs.order.domain.Events
 {
-    public class AddOrUpdateCustomerDomainEvent : DomainEventBase
+    public class AddOrUpdateCustomerDomainEvent : INotification
     {
         public AddOrUpdateCustomerDomainEvent(Customer customer)
         {

@@ -37,11 +37,6 @@ namespace bs.order.infrastructure.Persistence.Configurations
             });
 
             builder.Ignore(c => c.DomainEvents);
-            
-            builder.HasMany<CardDetail>()
-                .WithOne()
-                .HasForeignKey("_customerId")
-                .IsRequired(false);
         }
     }
 }

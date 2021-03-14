@@ -1,14 +1,18 @@
-﻿using bs.component.sharedkernal.Abstractions;
+﻿using bs.component.core.Extensions;
+using bs.component.sharedkernal.Abstractions;
 using bs.order.domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
-using bs.order.infrastructure.Persistence.Configurations;
 
 namespace bs.order.infrastructure.Persistence.Context
 {
     public class OrderDbContext : DbContext, IUnitOfWork
     {
+        
+        private readonly IMediator _mediator;
+
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
         
         public DbSet<Customer> Customers { get; set; }
@@ -20,15 +24,13 @@ namespace bs.order.infrastructure.Persistence.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ConsentEntityTypeConfiguration());
-
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
         }
 
-        public Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            throw new System.NotImplementedException();
+            await _mediator.DispatchDomainEventsAsync(this);
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

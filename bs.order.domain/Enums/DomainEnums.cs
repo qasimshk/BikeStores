@@ -23,6 +23,7 @@
     {
         Master,
         Visa,
-        AmericanExpress
+        AmericanExpress,
+        None
     }
 }

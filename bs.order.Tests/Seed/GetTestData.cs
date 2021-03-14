@@ -1,11 +1,16 @@
-﻿using bs.order.Tests.Models;
+﻿using bs.order.domain.Enums;
+using bs.order.Tests.Models;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using bs.order.domain.Enums;
 
 namespace bs.order.Tests.Seed
 {
+    public enum CardStatus
+    {
+        Valid,
+        Expired
+    }
+
     public static class GetTestData
     {
         public static List<MockCustomer> GetFakeCustomer()
@@ -51,11 +56,11 @@ namespace bs.order.Tests.Seed
             };
         }
 
-        public static MockCardDetails GetFakeCardDetails(int record)
+        public static MockCardDetails GetFakeCardDetails(CardStatus status)
         {
-            return record switch
+            return status switch
             {
-               1 => new MockCardDetails
+               CardStatus.Valid => new MockCardDetails
                {
                    CardHolderName = "Peter Parker",
                    CardNumber = 5555555555554444,
@@ -63,7 +68,7 @@ namespace bs.order.Tests.Seed
                    Expiration = DateTime.Parse("2050-09-09"),
                    SecurityNumber = 123
                },
-               2 => new MockCardDetails
+               CardStatus.Expired => new MockCardDetails
                {
                    CardHolderName = "John Elizabeth",
                    CardNumber = 4012888888881881,

@@ -8,7 +8,10 @@ namespace bs.order.domain.Entities
 {
     public class CardDetail : Entity
     {
-        protected CardDetail() { }
+        protected CardDetail()
+        {
+            CardType = CardType.None;
+        }
 
         public CardDetail(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, int customerId)
         {
@@ -31,6 +34,7 @@ namespace bs.order.domain.Entities
         private int _securityNumber { get; }
         private int _customerId { get; }
 
+        public virtual Customer Customer { get; }
         public CardType CardType { get; private set; }
         public string CardHolderName { get; private set; }
         public string CardNumber => $"xxxx xxxx xxxx {_cardNumber.ToString().Substring(12, 4)}";

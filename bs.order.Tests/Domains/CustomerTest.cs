@@ -13,6 +13,9 @@ namespace bs.order.Tests.Domains
     public class CustomerTest : IDisposable
     {
         private readonly OrderDbContext _context;
+        private const string emailOne = "test1@test.com";
+        private const string emailTwo = "test2@test.com";
+        private const string emailThree = "test3@test.com";
 
         public CustomerTest()
         {
@@ -25,7 +28,7 @@ namespace bs.order.Tests.Domains
         public void Create_Customer_Without_Card_Details_Success()
         {
             //Arrange
-            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == "test1@test.com");
+            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailOne);
             var mockAddress = GetTestData.GetFakeAddress();
 
             //Act
@@ -41,7 +44,7 @@ namespace bs.order.Tests.Domains
             
             _context.SaveChanges();
 
-            var result = _context.Customers.First(x => x.EmailAddress == "test1@test.com");
+            var result = _context.Customers.First(x => x.EmailAddress == emailOne);
 
             //Assert
             result.DomainEvents.Count.Should().Be(1);
@@ -57,9 +60,9 @@ namespace bs.order.Tests.Domains
         public void Create_Customer_With_Card_Details_Success()
         {
             //Arrange
-            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == "test3@test.com");
+            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailThree);
             var mockAddress = GetTestData.GetFakeAddress();
-            var mockCard = GetTestData.GetFakeCardDetails(1);
+            var mockCard = GetTestData.GetFakeCardDetails(CardStatus.Valid);
 
             //Act
             var customer = new Customer(mockCustomer.FirstName,
@@ -79,7 +82,7 @@ namespace bs.order.Tests.Domains
 
             _context.SaveChanges();
 
-            var result = _context.Customers.First(x => x.EmailAddress == "test3@test.com");
+            var result = _context.Customers.First(x => x.EmailAddress == emailThree);
 
             //Assert
             result.Id.Should().NotBe(0);
@@ -92,7 +95,7 @@ namespace bs.order.Tests.Domains
         public void Create_Customer_With_Invalid_DOB_Fail()
         {
             //Arrange
-            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == "test2@test.com");
+            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailTwo);
             var mockAddress = GetTestData.GetFakeAddress();
             
             //Act
@@ -112,9 +115,9 @@ namespace bs.order.Tests.Domains
         public void Create_Customer_With_Expired_Card_Fail()
         {
             //Arrange
-            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == "test3@test.com");
+            var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailThree);
             var mockAddress = GetTestData.GetFakeAddress();
-            var mockCard = GetTestData.GetFakeCardDetails(2);
+            var mockCard = GetTestData.GetFakeCardDetails(CardStatus.Expired);
 
             //Act
             Action action = () => new Customer(mockCustomer.FirstName,

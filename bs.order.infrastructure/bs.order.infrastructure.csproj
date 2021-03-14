@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
     <ProjectReference Include="..\bs.order.domain\bs.order.domain.csproj" />
   </ItemGroup>
 
