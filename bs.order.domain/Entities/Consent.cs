@@ -15,8 +15,8 @@ namespace bs.order.domain.Entities
             _customerId = customerId;
         }
 
-        private int _customerId { get; set; }
-        public virtual Customer Customer { get; }
+        private readonly int _customerId;
+        public Customer Customer { get; }
         public bool ContactByEmail { get; private set; }
         public bool ContactByText { get; private set; }
         public bool ContactByCall { get; private set; }

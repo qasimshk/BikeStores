@@ -20,24 +20,24 @@ namespace bs.identity.application.Commands.EmployeeRegistration
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide your {PropertyName}")
                 .Length(2, 20).WithMessage("{PropertyName} length is invalid - {TotalLength}")
-                .Must(CheckForValidName).WithMessage("{PropertyName} contains invalid characters");
+                .Must(MustBeValidName).WithMessage("{PropertyName} contains invalid characters");
 
             RuleFor(x => x.LastName)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide your {PropertyName}")
                 .Length(2, 20).WithMessage("{PropertyName} length is invalid - {TotalLength}")
-                .Must(CheckForValidName).WithMessage("{PropertyName} contains invalid characters");
+                .Must(MustBeValidName).WithMessage("{PropertyName} contains invalid characters");
 
             RuleFor(x => x.DateOfBirth)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide valid date of birth")
-                .Must(CheckForValidAge).WithMessage("{PropertyName} is invalid");
+                .Must(MustBeValidAge).WithMessage("{PropertyName} is invalid");
 
             RuleFor(x => x.EmailAddress)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide email address")
                 .MaximumLength(500).NotEmpty()
-                .MustAsync(CheckUniqueEmail).WithMessage("The specified email address already exists")
+                .MustAsync(MustBeUniqueEmail).WithMessage("The specified email address already exists")
                 .EmailAddress();
 
             RuleFor(x => x.Password)
@@ -59,21 +59,21 @@ namespace bs.identity.application.Commands.EmployeeRegistration
                 .NotEmpty().WithMessage("Please provide a valid contact number");
         }
         
-        private async Task<bool> CheckUniqueEmail(string emailAddress, CancellationToken cancellationToken)
+        private async Task<bool> MustBeUniqueEmail(string emailAddress, CancellationToken cancellationToken)
         {
             var employee = await _userManager.FindByEmailAsync(emailAddress);
             
             return employee == null;
         }
 
-        private static bool CheckForValidName(string name)
+        private static bool MustBeValidName(string name)
         {
             name = name.Replace(" ", "");
             name = name.Replace("-", "");
             return name.All(char.IsLetter);
         }
 
-        private static bool CheckForValidAge(DateTime date)
+        private static bool MustBeValidAge(DateTime date)
         {
             int currentYear = DateTime.Now.Year;
             int dobYear = date.Year;

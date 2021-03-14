@@ -5,7 +5,6 @@ using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace bs.order.domain.Entities
 {
@@ -54,12 +53,5 @@ namespace bs.order.domain.Entities
 
         public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType) =>
             AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id));
-
-        public CardDetail GetCardDetailById(int cardId) => this.CardDetails.First(c => c.Id == cardId);
-
-        public void PayByCash(Guid paymentRef, double amount, DateTime transactionDate)
-        {
-            AddDomainEvent(new AddPaymentDomainEvent(Id, paymentRef, amount, transactionDate, PaymentType.Cash, TransactionStatus.Successful));
-        }
     }
 }

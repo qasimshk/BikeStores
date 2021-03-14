@@ -9,7 +9,8 @@
     public enum TransactionStatus
     {
         Successful,
-        Failed
+        Declined,
+        Processing
     }
 
     public enum OrderStatus

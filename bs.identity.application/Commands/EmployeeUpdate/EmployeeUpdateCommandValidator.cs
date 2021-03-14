@@ -11,22 +11,22 @@ namespace bs.identity.application.Commands.EmployeeUpdate
             RuleFor(x => x.FirstName)
                 .Cascade(CascadeMode.Stop)
                 .Length(2, 20).WithMessage("{PropertyName} length is invalid - {TotalLength}")
-                .Must(CheckForValidName).WithMessage("{PropertyName} contains invalid characters");
+                .Must(MustBeValidName).WithMessage("{PropertyName} contains invalid characters");
 
             RuleFor(x => x.LastName)
                 .Cascade(CascadeMode.Stop)
                 .Length(2, 20).WithMessage("{PropertyName} length is invalid - {TotalLength}")
-                .Must(CheckForValidName).WithMessage("{PropertyName} contains invalid characters");
+                .Must(MustBeValidName).WithMessage("{PropertyName} contains invalid characters");
 
             RuleFor(x => x.DateOfBirth)
                 .Cascade(CascadeMode.Stop)
-                .Must(CheckForValidAge).WithMessage("{PropertyName} is invalid");
+                .Must(MustBeValidAge).WithMessage("{PropertyName} is invalid");
 
             RuleFor(x => x.PhoneNumber)
                 .Cascade(CascadeMode.Stop);
         }
 
-        private static bool CheckForValidName(string name)
+        private static bool MustBeValidName(string name)
         {
             if (!string.IsNullOrEmpty(name))
             {
@@ -37,7 +37,7 @@ namespace bs.identity.application.Commands.EmployeeUpdate
             return true;
         }
 
-        private static bool CheckForValidAge(DateTime? date)
+        private static bool MustBeValidAge(DateTime? date)
         {
             if (date != null)
             {
