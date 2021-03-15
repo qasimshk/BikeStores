@@ -10,6 +10,6 @@ namespace bs.order.domain.Events
             Consent = new Consent(contactByEmail, contactByText, contactByCall, contactByPost, customerId);
         }
 
-        public Consent Consent { get; private set; }
+        public Consent Consent { get; init; }
     }
 }

@@ -2,6 +2,7 @@
 using bs.order.domain.Enums;
 using System;
 using System.Collections.Generic;
+using bs.order.domain.Events;
 
 namespace bs.order.domain.Entities
 {
@@ -19,7 +20,10 @@ namespace bs.order.domain.Entities
             DeliveryAddress = deliveryAddress;
             OrderItems = orderItems;
 
-            // TODO: Add a foreach loop to get the list of order items and pass it through a domain event to order items
+            foreach (var item in orderItems)
+            {
+                AddDomainEvent(new AddOrderItemDomainEvent(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id));
+            }
         }
 
         private readonly int _paymentId;
@@ -27,9 +31,26 @@ namespace bs.order.domain.Entities
 
         public Guid OrderRef { get; private set; }
         public OrderStatus Status { get; private set; }
+        public DateTime? CancelledOn { get; private set; }
+        public DateTime? DeliveredOn { get; private set; }
+        public string ReasonOfCancellation { get; private set; }
         public Payment Payment { get; }
         public Customer Customer { get; }
         public Address DeliveryAddress { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems { get; private set; }
+
+        public void OrderCancelled(string reason)
+        {
+            Status = OrderStatus.Cancelled;
+            CancelledOn = DateTime.Now.Date;
+            ReasonOfCancellation = reason.Trim();
+            AddDomainEvent(new RefundPaymentDomainEvent(_paymentId));
+        }
+
+        public void OrderDelivered()
+        {
+            Status = OrderStatus.Delivered;
+            DeliveredOn = DateTime.Now.Date;
+        }
     }
 }

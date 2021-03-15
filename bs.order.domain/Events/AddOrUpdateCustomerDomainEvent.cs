@@ -10,6 +10,6 @@ namespace bs.order.domain.Events
             Customer = customer;
         }
 
-        public Customer Customer { get; private set; }
+        public Customer Customer { get; init; }
     }
 }

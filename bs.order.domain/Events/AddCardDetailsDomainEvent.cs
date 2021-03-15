@@ -12,6 +12,6 @@ namespace bs.order.domain.Events
             CardDetails = new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, customerId);
         }
 
-        public CardDetail CardDetails { get; private set; }
+        public CardDetail CardDetails { get; init; }
     }
 }

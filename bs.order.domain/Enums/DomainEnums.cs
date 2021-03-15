@@ -10,7 +10,8 @@
     {
         Successful,
         Declined,
-        Processing
+        Processing,
+        Refunded
     }
 
     public enum OrderStatus

@@ -3,6 +3,8 @@ using bs.component.sharedkernal.Common;
 using bs.order.domain.Enums;
 using bs.order.domain.Exceptions;
 using System;
+using bs.order.domain.Events;
+using System.Collections.Generic;
 
 namespace bs.order.domain.Entities
 {
@@ -10,7 +12,7 @@ namespace bs.order.domain.Entities
     {
         protected Payment() { }
 
-        public Payment(int customerId, double amount, PaymentType paymentType, int? cardDetailId = default)
+        public Payment(int customerId, double amount, PaymentType paymentType, Guid paymentRef, int? cardDetailId = default)
         {
             if (customerId <= 0)
             {
@@ -27,6 +29,7 @@ namespace bs.order.domain.Entities
             
             Amount = amount;
             PaymentType = paymentType;
+            PaymentRef = paymentRef;
             Status = TransactionStatus.Processing;
         }
 
@@ -37,34 +40,28 @@ namespace bs.order.domain.Entities
         public CardDetail CardDetail { get; }
         public Guid PaymentRef { get; private set; }
         public double Amount { get; private set; }
-        public DateTime TransactionDate { get; private set; }
+        public DateTime? TransactionDate { get; private set; }
         public PaymentType PaymentType { get; private set; }
         public TransactionStatus Status { get; private set; }
+        public DateTime? RefundedOn { get; private set; }
         
-
-        public void MarkTransactionSuccessfulAndPlaceAnOrder(Guid paymentRef)
+        public void MarkTransactionSuccessfulAndPlaceAnOrder(Guid orderRef, Address deliveryAddress, List<OrderItem> orderItems)
         {
-            if (paymentRef == Guid.Empty)
-            {
-                throw new PaymentDomainException("Payment reference cannot be empty");
-            }
-
-            PaymentRef = paymentRef;
             Status = TransactionStatus.Successful;
             TransactionDate = DateTime.Now.Date;
-            // TODO: Call order domain event here
+            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef,OrderStatus.Paid,Id, _customerId, deliveryAddress, orderItems));
         }
 
-        public void MarkTransactionAsDeclined(Guid paymentRef)
+        public void MarkTransactionAsDeclined()
         {
-            if (paymentRef == Guid.Empty)
-            {
-                throw new PaymentDomainException("Payment reference cannot be empty");
-            }
-
-            PaymentRef = paymentRef;
             Status = TransactionStatus.Declined;
             TransactionDate = DateTime.Now.Date;
+        }
+
+        public void MarkTransactionAsRefunded()
+        {
+            Status = TransactionStatus.Refunded;
+            RefundedOn = DateTime.Now.Date;
         }
     }
 }
