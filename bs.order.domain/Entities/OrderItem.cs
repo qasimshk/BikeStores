@@ -1,9 +1,10 @@
 ﻿using System;
+using bs.component.sharedkernal.Common;
 using bs.order.domain.Exceptions;
 
 namespace bs.order.domain.Entities
 {
-    public class OrderItem
+    public class OrderItem : Entity
     {
         protected OrderItem() { }
 
@@ -22,6 +23,7 @@ namespace bs.order.domain.Entities
         }
 
         private int _orderId;
+        public Order Order { get; }
         public Guid ProductRef { get; private set; }
         public string ProductName { get; private set; }
         public int Quantity { get; private set; }

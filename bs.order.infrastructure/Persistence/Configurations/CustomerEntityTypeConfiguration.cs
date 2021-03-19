@@ -20,6 +20,10 @@ namespace bs.order.infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(20);
 
+            builder.Property(c => c.PhoneNumber)
+                .HasMaxLength(11)
+                .IsRequired();
+
             builder.Property(c => c.EmailAddress)
                 .HasMaxLength(30)
                 .IsRequired();

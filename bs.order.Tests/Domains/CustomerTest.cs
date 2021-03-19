@@ -25,7 +25,7 @@ namespace bs.order.Tests.Domains
         }
 
         [Fact]
-        public void Create_Customer_Without_Card_Details_Success()
+        public void Create_Customer_Without_Card_Details_Should_Be_Success()
         {
             //Arrange
             var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailOne);
@@ -57,7 +57,7 @@ namespace bs.order.Tests.Domains
         }
         
         [Fact]
-        public void Create_Customer_With_Card_Details_Success()
+        public void Create_Customer_With_Card_Details_Should_Be_Success()
         {
             //Arrange
             var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailThree);
@@ -92,7 +92,7 @@ namespace bs.order.Tests.Domains
 
         
         [Fact]
-        public void Create_Customer_With_Invalid_DOB_Fail()
+        public void Create_Customer_With_Invalid_DOB_Should_Be_Fail()
         {
             //Arrange
             var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailTwo);
@@ -112,7 +112,7 @@ namespace bs.order.Tests.Domains
         }
 
         [Fact]
-        public void Create_Customer_With_Expired_Card_Fail()
+        public void Create_Customer_With_Expired_Card_Should_Be_Fail()
         {
             //Arrange
             var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailThree);

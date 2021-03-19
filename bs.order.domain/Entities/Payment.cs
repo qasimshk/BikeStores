@@ -37,6 +37,7 @@ namespace bs.order.domain.Entities
         private readonly int? _cardDetailId;
 
         public Customer Customer { get; }
+        public Order Order { get; }
         public CardDetail CardDetail { get; }
         public Guid PaymentRef { get; private set; }
         public double Amount { get; private set; }
