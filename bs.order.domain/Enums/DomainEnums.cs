@@ -11,14 +11,15 @@
         Successful,
         Declined,
         Processing,
-        Refunded
+        Refund
     }
 
     public enum OrderStatus
     {
         Paid,
         Delivered,
-        Cancelled //If order is Delivered then it cannot be cancelled
+        Cancelled, //If order is Delivered then it cannot be cancelled
+        Refund
     }
 
     public enum CardType

@@ -46,7 +46,7 @@ namespace bs.order.Tests.Seed
 
         public static MockAddress GetFakeAddress()
         {
-            return new MockAddress
+            return new()
             {
                 Street = "Test Street",
                 City = "Test City",
@@ -78,6 +78,109 @@ namespace bs.order.Tests.Seed
                },
                _ => default
             };
+        }
+
+        public static MockPayment GetFakeCustomerPayments(int customerId)
+        {
+            return customerId switch
+            {
+                0 => new MockPayment
+                {
+                    PaymentType = PaymentType.Cash,
+                    Amount = 0,
+                    CustomerId = customerId,
+                    PaymentRef = Guid.NewGuid()
+                },
+                1 => new MockPayment
+                {
+                    PaymentType = PaymentType.Card,
+                    Amount = 1200,
+                    CardDetailId = 1,
+                    CustomerId = customerId,
+                    PaymentRef = Guid.NewGuid()
+                },
+                2 => new MockPayment
+                {
+                    PaymentType = PaymentType.Cash,
+                    Amount = 500,
+                    CustomerId = customerId,
+                    PaymentRef = Guid.NewGuid()
+                },
+                3 => new MockPayment
+                {
+                    PaymentType = PaymentType.Cash,
+                    Amount = 0,
+                    CustomerId = customerId,
+                    PaymentRef = Guid.NewGuid()
+                },
+                _ => default
+            };
+        }
+
+        public static MockOrder GetFakeOrders(int customerId)
+        {
+            return customerId switch
+            {
+                0 => new MockOrder
+                {
+                    Status = OrderStatus.Paid,
+                    CustomerId = customerId,
+                    OrderRef = Guid.NewGuid(),
+                    PaymentId = 1,
+                    DeliveryAddress = GetFakeAddress(),
+                    MockOrderItems = new List<MockOrderItem>
+                    {
+                        new()
+                        {
+                            IndividualPrice = 500,
+                            OrderId = 1,
+                            ProductName = "Product One",
+                            ProductRef = Guid.NewGuid(),
+                            Quantity = 1
+                        }
+                    }
+                },
+                1 => new MockOrder
+                {
+                    Status = OrderStatus.Paid,
+                    CustomerId = customerId,
+                    OrderRef = Guid.NewGuid(),
+                    PaymentId = 1,
+                    DeliveryAddress = GetFakeAddress(),
+                    MockOrderItems = new List<MockOrderItem>
+                    {
+                        new()
+                        {
+                            IndividualPrice = 500,
+                            OrderId = 1,
+                            ProductName = "Product One",
+                            ProductRef = Guid.NewGuid(),
+                            Quantity = 1
+                        }
+                    }
+                },
+                2 => new MockOrder
+                {
+                    Status = OrderStatus.Paid,
+                    CustomerId = customerId,
+                    OrderRef = Guid.NewGuid(),
+                    PaymentId = 0,
+                    DeliveryAddress = GetFakeAddress(),
+                    MockOrderItems = new List<MockOrderItem>
+                    {
+                        new()
+                        {
+                            IndividualPrice = 500,
+                            OrderId = 1,
+                            ProductName = "Product One",
+                            ProductRef = Guid.NewGuid(),
+                            Quantity = 1
+                        }
+                    }
+                },
+                _ => default
+            };
+
         }
     }
 }

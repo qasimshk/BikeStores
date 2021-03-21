@@ -10,7 +10,7 @@ namespace bs.order.infrastructure.Persistence.Configurations
         {
             builder.ToTable(nameof(Order));
 
-            builder.HasKey(c => c.Id);
+            builder.HasKey(o => o.Id);
 
             builder.Property(o => o.OrderRef).IsRequired();
 

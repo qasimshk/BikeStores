@@ -37,25 +37,25 @@ namespace bs.order.Tests.Domains
                 mockCustomer.Dob,
                 mockCustomer.PhoneNumber,
                 mockCustomer.EmailAddress,
-                new Address(mockAddress.Street,mockAddress.City,mockAddress.Country,mockAddress.PostCode),
-                true,true,true,true);
+                new Address(mockAddress.Street, mockAddress.City, mockAddress.Country, mockAddress.PostCode),
+                true, true, true, true);
 
             _context.Customers.Add(customer);
-            
+
             _context.SaveChanges();
 
             var result = _context.Customers.First(x => x.EmailAddress == emailOne);
 
             //Assert
             result.DomainEvents.Count.Should().Be(1);
-            
+
             result.Id.Should().NotBe(0);
-            
+
             result.GetAge.Should().Be(31);
-            
+
             result.GetFullName.Should().Be($"{mockCustomer.FirstName} {mockCustomer.LastName}");
         }
-        
+
         [Fact]
         public void Create_Customer_With_Card_Details_Should_Be_Success()
         {
@@ -90,14 +90,14 @@ namespace bs.order.Tests.Domains
             result.DomainEvents.Count.Should().Be(2);
         }
 
-        
+
         [Fact]
         public void Create_Customer_With_Invalid_DOB_Should_Be_Fail()
         {
             //Arrange
             var mockCustomer = GetTestData.GetFakeCustomer().First(x => x.EmailAddress == emailTwo);
             var mockAddress = GetTestData.GetFakeAddress();
-            
+
             //Act
             Action action = () => new Customer(mockCustomer.FirstName,
                 mockCustomer.LastName,
@@ -106,7 +106,7 @@ namespace bs.order.Tests.Domains
                 mockCustomer.EmailAddress,
                 new Address(mockAddress.Street, mockAddress.City, mockAddress.Country, mockAddress.PostCode),
                 true, true, true, true);
-            
+
             //Assert
             action.Should().Throw<CustomerDomainException>().WithMessage("Customer date of birth is not valid");
         }

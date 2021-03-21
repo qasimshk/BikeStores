@@ -1,9 +1,9 @@
 ﻿using bs.component.sharedkernal.Abstractions;
 using bs.component.sharedkernal.Common;
 using bs.order.domain.Enums;
+using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
-using bs.order.domain.Events;
 using System.Collections.Generic;
 
 namespace bs.order.domain.Entities
@@ -14,12 +14,12 @@ namespace bs.order.domain.Entities
 
         public Payment(int customerId, double amount, PaymentType paymentType, Guid paymentRef, int? cardDetailId = default)
         {
-            if (customerId <= 0)
+            if (customerId is 0)
             {
                 throw new PaymentDomainException("Invalid Customer");
             }
 
-            if (amount <= 0)
+            if (amount is 0)
             {
                 throw new PaymentDomainException("Insufficient Amount");
             }
@@ -50,18 +50,22 @@ namespace bs.order.domain.Entities
         {
             Status = TransactionStatus.Successful;
             TransactionDate = DateTime.Now.Date;
-            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef,OrderStatus.Paid,Id, _customerId, deliveryAddress, orderItems));
+            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef,Id, _customerId, deliveryAddress, orderItems));
         }
 
         public void MarkTransactionAsDeclined()
         {
+            if (Status != TransactionStatus.Processing) throw new PaymentDomainException("Payment is already processed");
+            
             Status = TransactionStatus.Declined;
             TransactionDate = DateTime.Now.Date;
         }
 
         public void MarkTransactionAsRefunded()
         {
-            Status = TransactionStatus.Refunded;
+            if (Status != TransactionStatus.Successful) throw new PaymentDomainException("This payment was not successfully completed");
+
+            Status = TransactionStatus.Refund;
             RefundedOn = DateTime.Now.Date;
         }
     }

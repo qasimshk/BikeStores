@@ -3,6 +3,7 @@ using bs.order.domain.Enums;
 using System;
 using System.Collections.Generic;
 using bs.order.domain.Events;
+using bs.order.domain.Exceptions;
 
 namespace bs.order.domain.Entities
 {
@@ -10,13 +11,23 @@ namespace bs.order.domain.Entities
     {
         protected Order() { }
 
-        public Order(Guid orderRef, OrderStatus status, int paymentId, int customerId, Address deliveryAddress, List<OrderItem> orderItems)
+        public Order(Guid orderRef, int paymentId, int customerId, Address deliveryAddress, List<OrderItem> orderItems)
         {
+            if (paymentId is 0)
+            {
+                throw new OrderingDomainException("Invalid payment Id");
+            }
+
+            if (customerId is 0)
+            {
+                throw new OrderingDomainException("Invalid customer Id");
+            }
+
             _paymentId = paymentId;
             _customerId = customerId;
 
             OrderRef = orderRef;
-            Status = status;
+            Status = OrderStatus.Paid;
             DeliveryAddress = deliveryAddress;
             OrderItems = orderItems;
 
@@ -39,15 +50,27 @@ namespace bs.order.domain.Entities
         public Address DeliveryAddress { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems { get; private set; }
 
-        public void OrderCancelled(string reason)
+        public void MarkOrderCancelled(string reason)
         {
+            if (Status != OrderStatus.Paid) throw new OrderingDomainException("Order can only be cancelled once paid");
+
             Status = OrderStatus.Cancelled;
             CancelledOn = DateTime.Now.Date;
             ReasonOfCancellation = reason.Trim();
             AddDomainEvent(new RefundPaymentDomainEvent(_paymentId));
         }
 
-        public void OrderDelivered()
+        public void MarkOrderRefund(string reason)
+        {
+            if (Status != OrderStatus.Delivered) throw new OrderingDomainException("Order can only be refunded once delivered");
+
+            Status = OrderStatus.Refund;
+            CancelledOn = DateTime.Now.Date;
+            ReasonOfCancellation = reason.Trim();
+            AddDomainEvent(new RefundPaymentDomainEvent(_paymentId));
+        }
+
+        public void MarkOrderDelivered()
         {
             Status = OrderStatus.Delivered;
             DeliveredOn = DateTime.Now.Date;
