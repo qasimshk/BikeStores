@@ -1,14 +1,13 @@
 ﻿using bs.order.domain.Entities;
-using System;
 using MediatR;
 
 namespace bs.order.domain.Events
 {
     public class AddOrderItemDomainEvent : INotification
     {
-        public AddOrderItemDomainEvent(Guid productRef, string productName, int quantity, double individualPrice, int orderId)
+        public AddOrderItemDomainEvent(OrderItem orderItem)
         {
-            OrderItem = new OrderItem(productRef, productName, quantity, individualPrice, orderId);
+            OrderItem = orderItem;
         }
 
         public OrderItem OrderItem { get; init; }

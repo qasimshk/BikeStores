@@ -34,11 +34,11 @@ namespace bs.order.domain.Entities
             EmailAddress = emailAddress;
             BillingAddress = billingAddress;
             Dob = dob;
-            AddDomainEvent(new AddOrUpdateCustomerConsentDomainEvent(contactByEmail, contactByText, contactByCall, contactByPost, Id));
+            AddDomainEvent(new AddOrUpdateCustomerConsentDomainEvent(new Consent(contactByEmail, contactByText, contactByCall, contactByPost, Id)));
             
             if (!string.IsNullOrEmpty(cardHolderName) && cardNumber is not null && expiration is not null && securityNumber is not null && cardType is not null)
             {
-                AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, Id));
+                AddDomainEvent(new AddCardDetailsDomainEvent(new CardDetail(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, Id)));
             }
         }
 
@@ -57,6 +57,6 @@ namespace bs.order.domain.Entities
         public int GetAge => DateTime.Now.Year - Dob.Year;
 
         public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType) =>
-            AddDomainEvent(new AddCardDetailsDomainEvent(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id));
+            AddDomainEvent(new AddCardDetailsDomainEvent(new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id)));
     }
 }

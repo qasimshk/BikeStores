@@ -9,31 +9,25 @@ namespace bs.order.domain.Entities
 {
     public class Order : Entity
     {
-        protected Order() { }
+        private List<OrderItem> _orderItems;
+
+        protected Order()
+        {
+            _orderItems = new List<OrderItem>();
+        }
 
         public Order(Guid orderRef, int paymentId, int customerId, Address deliveryAddress, List<OrderItem> orderItems)
         {
-            if (paymentId is 0)
-            {
-                throw new OrderingDomainException("Invalid payment Id");
-            }
-
-            if (customerId is 0)
-            {
-                throw new OrderingDomainException("Invalid customer Id");
-            }
-
             _paymentId = paymentId;
             _customerId = customerId;
 
             OrderRef = orderRef;
             Status = OrderStatus.Paid;
             DeliveryAddress = deliveryAddress;
-            OrderItems = orderItems;
 
             foreach (var item in orderItems)
             {
-                AddDomainEvent(new AddOrderItemDomainEvent(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id));
+                AddDomainEvent(new AddOrderItemDomainEvent(new OrderItem(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id)));
             }
         }
 
@@ -48,8 +42,8 @@ namespace bs.order.domain.Entities
         public Payment Payment { get; }
         public Customer Customer { get; }
         public Address DeliveryAddress { get; private set; }
-        public IReadOnlyCollection<OrderItem> OrderItems { get; private set; }
-
+        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+        
         public void MarkOrderCancelled(string reason)
         {
             if (Status != OrderStatus.Paid) throw new OrderingDomainException("Order can only be cancelled once paid");

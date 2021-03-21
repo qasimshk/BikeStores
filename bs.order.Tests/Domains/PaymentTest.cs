@@ -68,7 +68,6 @@ namespace bs.order.Tests.Domains
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(3)]
         public void Create_Payment_Should_Be_Failed_With_Exception(int customerId)
         {
@@ -81,17 +80,9 @@ namespace bs.order.Tests.Domains
                 mockPayment.PaymentType,
                 mockPayment.PaymentRef,
                 mockPayment.CardDetailId);
-            
+
             //Assert
-            switch (customerId)
-            {
-                case 0:
-                    action.Should().Throw<PaymentDomainException>().WithMessage("Invalid Customer");
-                    break;
-                case 3:
-                    action.Should().Throw<PaymentDomainException>().WithMessage("Insufficient Amount");
-                    break;
-            }
+            action.Should().Throw<PaymentDomainException>().WithMessage("Insufficient Amount");
         }
 
         [Fact]
@@ -138,6 +129,10 @@ namespace bs.order.Tests.Domains
                 mockPayment.PaymentRef,
                 mockPayment.CardDetailId);
 
+            _context.Payments.Add(payment);
+
+            _context.SaveChanges();
+
             payment.MarkTransactionSuccessfulAndPlaceAnOrder(mockOrder.OrderRef,
                 new Address(mockOrder.DeliveryAddress.Street,
                     mockOrder.DeliveryAddress.City,
@@ -151,10 +146,6 @@ namespace bs.order.Tests.Domains
                         mockOrderItem.IndividualPrice,
                         mockOrderItem.OrderId)
                 });
-
-            _context.Payments.Add(payment);
-
-            _context.SaveChanges();
             
             var result = _context.Payments.First(p => p.PaymentRef == mockPayment.PaymentRef);
 

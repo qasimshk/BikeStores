@@ -14,11 +14,6 @@ namespace bs.order.domain.Entities
 
         public Payment(int customerId, double amount, PaymentType paymentType, Guid paymentRef, int? cardDetailId = default)
         {
-            if (customerId is 0)
-            {
-                throw new PaymentDomainException("Invalid Customer");
-            }
-
             if (amount is 0)
             {
                 throw new PaymentDomainException("Insufficient Amount");
@@ -50,7 +45,7 @@ namespace bs.order.domain.Entities
         {
             Status = TransactionStatus.Successful;
             TransactionDate = DateTime.Now.Date;
-            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef,Id, _customerId, deliveryAddress, orderItems));
+            AddDomainEvent(new PlaceAnOrderDomainEvent(new Order(orderRef, Id, _customerId, deliveryAddress, orderItems)));
         }
 
         public void MarkTransactionAsDeclined()

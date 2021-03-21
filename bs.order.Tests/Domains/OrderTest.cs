@@ -1,7 +1,6 @@
 ﻿using bs.order.domain.Entities;
 using bs.order.domain.Enums;
 using bs.order.domain.Events;
-using bs.order.domain.Exceptions;
 using bs.order.infrastructure.Persistence.Context;
 using bs.order.Tests.Seed;
 using FluentAssertions;
@@ -54,7 +53,7 @@ namespace bs.order.Tests.Domains
             _context.SaveChanges();
 
             var result = _context.Orders.First(o => o.OrderRef == mockOrder.OrderRef);
-
+            
             //Assert
             result.Id.Should().NotBe(0);
 
@@ -179,45 +178,7 @@ namespace bs.order.Tests.Domains
 
             result.Status.Should().Be(OrderStatus.Refund);
         }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(2)]
-        public void Create_Order_Should_be_Failed_With_Exception(int customerId)
-        {
-            //Arrange
-            var mockOrder = GetTestData.GetFakeOrders(customerId);
-            var mockOrderItem = mockOrder.MockOrderItems.First();
-
-            //Act
-            Action action = () => new Order(mockOrder.OrderRef,
-                mockOrder.PaymentId,
-                mockOrder.CustomerId,
-                new Address(mockOrder.DeliveryAddress.Street,
-                    mockOrder.DeliveryAddress.City,
-                    mockOrder.DeliveryAddress.Country,
-                    mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
-                {
-                    new(mockOrderItem.ProductRef,
-                        mockOrderItem.ProductName,
-                        mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
-                });
-
-            //Assert
-            switch (customerId)
-            {
-                case 0:
-                    action.Should().Throw<OrderingDomainException>().WithMessage("Invalid customer Id");
-                    break;
-                case 2:
-                    action.Should().Throw<OrderingDomainException>().WithMessage("Invalid payment Id");
-                    break;
-            }
-        }
-
+        
         public void Dispose()
         {
             _context.Dispose();

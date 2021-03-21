@@ -1,15 +1,13 @@
 ﻿using bs.order.domain.Entities;
-using bs.order.domain.Enums;
 using MediatR;
-using System;
 
 namespace bs.order.domain.Events
 {
     public class AddCardDetailsDomainEvent : INotification
     {
-        public AddCardDetailsDomainEvent(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, int customerId)
+        public AddCardDetailsDomainEvent(CardDetail cardDetail)
         {
-            CardDetails = new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, customerId);
+            CardDetails = cardDetail;
         }
 
         public CardDetail CardDetails { get; init; }

@@ -5,9 +5,9 @@ namespace bs.order.domain.Events
 {
     public class AddOrUpdateCustomerConsentDomainEvent : INotification
     {
-        public AddOrUpdateCustomerConsentDomainEvent(bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost, int customerId)
+        public AddOrUpdateCustomerConsentDomainEvent(Consent consent)
         {
-            Consent = new Consent(contactByEmail, contactByText, contactByCall, contactByPost, customerId);
+            Consent = consent;
         }
 
         public Consent Consent { get; init; }
