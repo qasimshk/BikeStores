@@ -12,7 +12,7 @@ namespace bs.order.domain.Entities
     {
         protected Payment() { }
 
-        public Payment(int customerId, double amount, PaymentType paymentType, Guid paymentRef, int? cardDetailId = default)
+        public Payment(int customerId, double amount, PaymentType paymentType, Guid paymentRef, int? cardDetailId = null) : this()
         {
             if (amount is 0)
             {
@@ -29,11 +29,11 @@ namespace bs.order.domain.Entities
         }
 
         private readonly int _customerId;
-        private readonly int? _cardDetailId;
+        private int? _cardDetailId;
 
-        public Customer Customer { get; }
-        public Order Order { get; }
-        public CardDetail CardDetail { get; }
+        public Customer Customer { get; private set; }
+        public Order Order { get; private set; }
+        public CardDetail CardDetail { get; private set; }
         public Guid PaymentRef { get; private set; }
         public double Amount { get; private set; }
         public DateTime? TransactionDate { get; private set; }

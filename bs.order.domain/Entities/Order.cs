@@ -1,9 +1,9 @@
 ﻿using bs.component.sharedkernal.Common;
 using bs.order.domain.Enums;
-using System;
-using System.Collections.Generic;
 using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
+using System;
+using System.Collections.Generic;
 
 namespace bs.order.domain.Entities
 {
@@ -39,8 +39,8 @@ namespace bs.order.domain.Entities
         public DateTime? CancelledOn { get; private set; }
         public DateTime? DeliveredOn { get; private set; }
         public string ReasonOfCancellation { get; private set; }
-        public Payment Payment { get; }
-        public Customer Customer { get; }
+        public Payment Payment { get; private set; }
+        public Customer Customer { get; private set; }
         public Address DeliveryAddress { get; private set; }
         public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
         

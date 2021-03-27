@@ -31,7 +31,7 @@ namespace bs.order.infrastructure.Persistence.Configurations
             builder.HasIndex(c => c.EmailAddress).IsUnique();
 
             builder.Property(c => c.Dob)
-                .HasColumnType("datetime")
+                .HasColumnType("date")
                 .IsRequired();
 
             builder.OwnsOne(c => c.BillingAddress, a =>
@@ -41,6 +41,17 @@ namespace bs.order.infrastructure.Persistence.Configurations
             });
 
             builder.Ignore(c => c.DomainEvents);
+
+            builder.HasOne(c => c.Consents)
+                .WithOne(c => c.Customer)
+                .HasForeignKey<Consent>("_customerId")
+                .HasPrincipalKey<Customer>(c => c.Id)
+                .IsRequired();
+
+            builder.HasMany(cd => cd.CardDetails)
+                .WithOne(c => c.Customer)
+                .HasForeignKey("_customerId")
+                .HasPrincipalKey(c => c.Id);
         }
     }
 }

@@ -16,10 +16,11 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.Property(c => c.CardType).IsRequired();
 
-            builder.HasOne(c => c.Customer)
-                .WithMany(cd => cd.CardDetails)
-                .HasForeignKey("_customerId")
-                .HasPrincipalKey(c => c.Id);
+            builder.Property<int>("_customerId")
+                .HasColumnName("CustomerId")
+                .IsRequired();
+            
+            builder.Ignore(c => c.DomainEvents);
         }
     }
 }

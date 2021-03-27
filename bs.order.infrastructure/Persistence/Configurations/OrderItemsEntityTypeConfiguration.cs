@@ -20,10 +20,11 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.Property(o => o.IndividualPrice).IsRequired();
 
-            builder.HasOne(o => o.Order)
-                .WithMany(oi => oi.OrderItems)
-                .HasForeignKey("_orderId")
-                .HasPrincipalKey(o => o.Id);
+            builder.Property<int>("_orderId")
+                .HasColumnName("OrderId")
+                .IsRequired();
+            
+            builder.Ignore(c => c.DomainEvents);
         }
     }
 }

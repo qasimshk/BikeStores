@@ -14,22 +14,36 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.Property(p => p.PaymentRef).IsRequired();
 
-            builder.Property(p => p.Amount).IsRequired();
+            builder.Property(p => p.Amount).HasColumnType("decimal(5,2)").IsRequired();
 
             builder.Property(p => p.PaymentType).IsRequired();
 
             builder.Property(p => p.Status).IsRequired();
 
+            builder.Property<int>("_customerId")
+                .HasColumnName("CustomerId")
+                .IsRequired();
+
+            builder.Property<int?>("_cardDetailId")
+                .HasColumnName("CardDetailId");
+
             builder.HasOne(p => p.Customer)
                 .WithMany(c => c.Payments)
                 .HasForeignKey("_customerId")
-                .HasPrincipalKey(c => c.Id);
+                .HasPrincipalKey(c => c.Id)
+                .IsRequired();
 
             builder.HasOne(p => p.CardDetail)
                 .WithMany(p => p.Payments)
                 .HasForeignKey("_cardDetailId")
                 .HasPrincipalKey(cd => cd.Id);
 
+            builder.HasOne(o => o.Order)
+                .WithOne(p => p.Payment)
+                .HasForeignKey<Order>("_paymentId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Ignore(c => c.DomainEvents);
         }
     }
 }

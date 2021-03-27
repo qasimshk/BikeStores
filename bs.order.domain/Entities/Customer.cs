@@ -13,7 +13,7 @@ namespace bs.order.domain.Entities
         private readonly List<CardDetail> _cardDetails;
         private readonly List<Order> _orders;
         private readonly List<Payment> _payments;
-
+        
         private Customer()
         {
             _cardDetails = new List<CardDetail>();
@@ -21,7 +21,7 @@ namespace bs.order.domain.Entities
             _payments = new List<Payment>();
         }
 
-        public Customer(string firstName, string lastName, DateTime dob, string phoneNumber, string emailAddress, Address billingAddress, bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost, string cardHolderName = null, long? cardNumber = 0, DateTime? expiration = null, int? securityNumber = 0, CardType? cardType = null)
+        public Customer(string firstName, string lastName, DateTime dob, string phoneNumber, string emailAddress, Address billingAddress, bool contactByEmail, bool contactByText, bool contactByCall, bool contactByPost, string cardHolderName = null, long? cardNumber = 0, DateTime? expiration = null, int? securityNumber = 0, CardType? cardType = null) : this()
         {
             if (dob.Date >= DateTime.Now.Date)
             {
@@ -48,7 +48,7 @@ namespace bs.order.domain.Entities
         public string PhoneNumber { get; private set; }
         public string EmailAddress { get; private set; }
         public Address BillingAddress { get; private set; }
-        public Consent Consents { get; }
+        public Consent Consents { get; private set; }
         public IReadOnlyCollection<CardDetail> CardDetails => _cardDetails;
         public IReadOnlyCollection<Order> Orders => _orders;
         public IReadOnlyCollection<Payment> Payments => _payments;

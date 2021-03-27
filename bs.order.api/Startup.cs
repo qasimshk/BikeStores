@@ -1,57 +1,52 @@
+using bs.component.core.Extensions;
+using bs.order.api.Infrastructure.Extensions;
+using bs.order.application.Extensions;
+using bs.order.infrastructure.Persistence.Context;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace bs.order.api
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+        private const string SwaggerJson = "/swagger/v1/swagger.json";
+        private const string ServiceName = "Order Microservice";
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "bs.order.api", Version = "v1" });
-            });
+            services
+                .AddApplicationDbContextExtension<OrderDbContext>(_configuration)
+                .AddApplicationMvc(ServiceName)
+                .AddHandlers()
+                .AddApplicationLogging(_configuration)
+                .AddApplicationModules(_configuration);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "bs.order.api v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint(SwaggerJson, ServiceName));
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Expand().Filter().Count().OrderBy();
                 endpoints.MapControllers();
             });
         }

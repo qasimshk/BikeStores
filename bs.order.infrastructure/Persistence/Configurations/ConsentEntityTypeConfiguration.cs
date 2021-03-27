@@ -20,10 +20,11 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.Property(c => c.ContactByPost).IsRequired();
 
-            builder.HasOne(c => c.Customer)
-                .WithOne(c => c.Consents)
-                .HasForeignKey<Consent>("_customerId")
-                .HasPrincipalKey<Customer>(c => c.Id);
+            builder.Property<int>("_customerId")
+                .HasColumnName("CustomerId")
+                .IsRequired();
+            
+            builder.Ignore(c => c.DomainEvents);
         }
     }
 }

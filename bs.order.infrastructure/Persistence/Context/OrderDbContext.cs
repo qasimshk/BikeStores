@@ -25,6 +25,7 @@ namespace bs.order.infrastructure.Persistence.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
         }
 
         public async Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default)
