@@ -4,10 +4,11 @@ using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
 using System.Collections.Generic;
+using bs.component.sharedkernal.Abstractions;
 
 namespace bs.order.domain.Entities
 {
-    public class Order : Entity
+    public class Order : Entity, IAggregateRoot
     {
         private List<OrderItem> _orderItems;
 
