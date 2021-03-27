@@ -12,13 +12,17 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.HasKey(o => o.Id);
 
-            builder.Property(o => o.ProductName).IsRequired();
+            builder.Property(o => o.ProductName)
+                .IsRequired();
 
-            builder.Property(o => o.ProductRef).IsRequired();
+            builder.Property(o => o.ProductRef)
+                .IsRequired();
 
-            builder.Property(o => o.Quantity).IsRequired();
+            builder.Property(o => o.Quantity)
+                .IsRequired();
 
-            builder.Property(o => o.IndividualPrice).IsRequired();
+            builder.Property(o => o.IndividualPrice)
+                .IsRequired();
 
             builder.Property<int>("_orderId")
                 .HasColumnName("OrderId")

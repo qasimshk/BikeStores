@@ -32,6 +32,7 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.Property(c => c.Dob)
                 .HasColumnType("date")
+                .HasColumnName("DateOfBirth")
                 .IsRequired();
 
             builder.OwnsOne(c => c.BillingAddress, a =>

@@ -12,9 +12,11 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.HasKey(c => c.Id);
             
-            builder.Property(c => c.CardHolderName).IsRequired();
+            builder.Property(c => c.CardHolderName)
+                .IsRequired();
 
-            builder.Property(c => c.CardType).IsRequired();
+            builder.Property(c => c.CardType)
+                .IsRequired();
 
             builder.Property<int>("_customerId")
                 .HasColumnName("CustomerId")

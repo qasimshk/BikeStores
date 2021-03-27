@@ -12,13 +12,17 @@ namespace bs.order.infrastructure.Persistence.Configurations
 
             builder.HasKey(c => c.Id);
 
-            builder.Property(c => c.ContactByEmail).IsRequired();
+            builder.Property(c => c.ContactByEmail)
+                .IsRequired();
 
-            builder.Property(c => c.ContactByText).IsRequired();
+            builder.Property(c => c.ContactByText)
+                .IsRequired();
 
-            builder.Property(c => c.ContactByCall).IsRequired();
+            builder.Property(c => c.ContactByCall)
+                .IsRequired();
 
-            builder.Property(c => c.ContactByPost).IsRequired();
+            builder.Property(c => c.ContactByPost)
+                .IsRequired();
 
             builder.Property<int>("_customerId")
                 .HasColumnName("CustomerId")

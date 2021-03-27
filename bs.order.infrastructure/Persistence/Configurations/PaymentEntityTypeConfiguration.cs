@@ -41,7 +41,8 @@ namespace bs.order.infrastructure.Persistence.Configurations
             builder.HasOne(o => o.Order)
                 .WithOne(p => p.Payment)
                 .HasForeignKey<Order>("_paymentId")
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
 
             builder.Ignore(c => c.DomainEvents);
         }
