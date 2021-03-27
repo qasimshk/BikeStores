@@ -35,10 +35,21 @@ namespace bs.order.infrastructure.Persistence.Configurations
                 .HasColumnName("DateOfBirth")
                 .IsRequired();
 
-            builder.OwnsOne(c => c.BillingAddress, a =>
+            builder.OwnsOne(c => c.BillingAddress, ba =>
             {
-                a.Property<int>("CustomerId");
-                a.WithOwner();
+                ba.Property<int>("CustomerId");
+
+                ba.Property(d => d.Street)
+                    .HasMaxLength(100);
+
+                ba.Property(d => d.PostCode)
+                    .HasMaxLength(100);
+
+                ba.Property(d => d.City)
+                    .HasMaxLength(100);
+
+                ba.Property(d => d.Country)
+                    .HasMaxLength(100);
             });
 
             builder.Ignore(c => c.DomainEvents);
@@ -46,6 +57,7 @@ namespace bs.order.infrastructure.Persistence.Configurations
             builder.HasOne(c => c.Consents)
                 .WithOne(c => c.Customer)
                 .HasForeignKey<Consent>("_customerId")
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasPrincipalKey<Customer>(c => c.Id)
                 .IsRequired();
 

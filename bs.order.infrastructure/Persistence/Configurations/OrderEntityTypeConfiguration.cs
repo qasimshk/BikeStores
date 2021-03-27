@@ -26,21 +26,34 @@ namespace bs.order.infrastructure.Persistence.Configurations
                 .HasColumnName("CustomerId")
                 .IsRequired();
 
-            builder.OwnsOne(o => o.DeliveryAddress, a =>
+            builder.OwnsOne(o => o.DeliveryAddress, da =>
             {
-                a.Property<int>("OrderId");
-                a.WithOwner();
+                da.Property<int>("OrderId");
+
+                da.Property(d => d.Street)
+                    .HasMaxLength(100);
+
+                da.Property(d => d.PostCode)
+                    .HasMaxLength(100);
+
+                da.Property(d => d.City)
+                    .HasMaxLength(100);
+
+                da.Property(d => d.Country)
+                    .HasMaxLength(100);
             });
             
             builder.HasOne(c => c.Customer)
                 .WithMany(o => o.Orders)
                 .HasForeignKey("_customerId")
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasPrincipalKey(c => c.Id)
                 .IsRequired();
 
             builder.HasMany(oi => oi.OrderItems)
                 .WithOne(o => o.Order)
                 .HasForeignKey("_orderId")
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasPrincipalKey(o => o.Id)
                 .IsRequired();
             

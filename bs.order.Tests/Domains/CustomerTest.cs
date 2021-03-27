@@ -53,6 +53,8 @@ namespace bs.order.Tests.Domains
 
             result.GetAge.Should().Be(31);
 
+            result.BillingAddress.ToString().Should().BeEquivalentTo($"{mockAddress.Street} {mockAddress.PostCode} {mockAddress.City} {mockAddress.Country}");
+
             result.GetFullName.Should().Be($"{mockCustomer.FirstName} {mockCustomer.LastName}");
         }
 
