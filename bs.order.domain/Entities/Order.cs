@@ -10,12 +10,7 @@ namespace bs.order.domain.Entities
 {
     public class Order : Entity, IAggregateRoot
     {
-        private List<OrderItem> _orderItems;
-
-        protected Order()
-        {
-            _orderItems = new List<OrderItem>();
-        }
+        protected Order() { }
 
         public Order(Guid orderRef, int paymentId, int customerId, Address deliveryAddress, List<OrderItem> orderItems)
         {
@@ -28,7 +23,10 @@ namespace bs.order.domain.Entities
 
             foreach (var item in orderItems)
             {
-                AddDomainEvent(new AddOrderItemDomainEvent(new OrderItem(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id)));
+                OrderItems = new List<OrderItem>
+                {
+                    new(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id)
+                };
             }
         }
 
@@ -43,7 +41,7 @@ namespace bs.order.domain.Entities
         public Payment Payment { get; private set; }
         public Customer Customer { get; private set; }
         public Address DeliveryAddress { get; private set; }
-        public IReadOnlyCollection<OrderItem> OrderItems => _orderItems;
+        public IList<OrderItem> OrderItems { get; private set; }
         
         public void MarkOrderCancelled(string reason)
         {

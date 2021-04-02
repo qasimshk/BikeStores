@@ -6,7 +6,7 @@ A bike store management system is developed using the DotNet five framework, whi
 
 Workflows are based on sagas pattern where every transaction action is predefined and services are instructed by the orchestrator to act accordingly. In case of any failure, the orchestrator will roll back the process or break it with the proper error message stored in log files.
 
-## Build Status (GitHub Actions)
+## Build Status 
 
 | Service | Status |
 | ------------- | ------------- |

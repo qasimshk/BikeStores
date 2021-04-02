@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Persistence\Queries\" />
-    <Folder Include="Persistence\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -31,9 +31,9 @@ namespace bs.order.api
                 .AddApplicationDbContextExtension<OrderDbContext>(_configuration)
                 .AddHandlers()
                 .AddApplicationLogging(_configuration)
-                .AddApplicationModules(_configuration)
                 .AddEventBus(appConfig.EventBusConnection)
-                .AddApplicationMvc(ServiceName);
+                .AddApplicationMvc(ServiceName)
+                .AddApplicationModules();
         }
         
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

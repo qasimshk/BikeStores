@@ -56,9 +56,7 @@ namespace bs.order.Tests.Domains
             
             //Assert
             result.Id.Should().NotBe(0);
-
-            result.DomainEvents.Count.Should().Be(mockOrder.MockOrderItems.Count);
-
+            
             result.Status.Should().Be(OrderStatus.Paid);
         }
 
@@ -96,8 +94,6 @@ namespace bs.order.Tests.Domains
             result.MarkOrderCancelled("Testing");
 
             //Assert
-            result.DomainEvents.ToArray()[1].Should().BeOfType(typeof(RefundPaymentDomainEvent));
-
             result.Status.Should().Be(OrderStatus.Cancelled);
         }
 
@@ -174,8 +170,6 @@ namespace bs.order.Tests.Domains
             result.MarkOrderRefund("Testing");
 
             //Assert
-            result.DomainEvents.ToArray()[1].Should().BeOfType(typeof(RefundPaymentDomainEvent));
-
             result.Status.Should().Be(OrderStatus.Refund);
         }
         

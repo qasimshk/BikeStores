@@ -45,7 +45,7 @@ namespace bs.order.domain.Entities
         {
             Status = TransactionStatus.Successful;
             TransactionDate = DateTime.Now.Date;
-            AddDomainEvent(new PlaceAnOrderDomainEvent(new Order(orderRef, Id, _customerId, deliveryAddress, orderItems)));
+            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef, Id, _customerId, deliveryAddress, orderItems, this));
         }
 
         public void MarkTransactionAsDeclined()

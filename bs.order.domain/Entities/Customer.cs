@@ -1,7 +1,6 @@
 ﻿using bs.component.sharedkernal.Abstractions;
 using bs.component.sharedkernal.Common;
 using bs.order.domain.Enums;
-using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -10,13 +9,11 @@ namespace bs.order.domain.Entities
 {
     public sealed class Customer : Entity, IAggregateRoot
     {
-        private readonly List<CardDetail> _cardDetails;
         private readonly List<Order> _orders;
         private readonly List<Payment> _payments;
         
         private Customer()
         {
-            _cardDetails = new List<CardDetail>();
             _orders = new List<Order>();
             _payments = new List<Payment>();
         }
@@ -34,11 +31,14 @@ namespace bs.order.domain.Entities
             EmailAddress = emailAddress;
             BillingAddress = billingAddress;
             Dob = dob;
-            AddDomainEvent(new AddOrUpdateCustomerConsentDomainEvent(new Consent(contactByEmail, contactByText, contactByCall, contactByPost, Id)));
+            Consents = new Consent(contactByEmail, contactByText, contactByCall, contactByPost, Id);
             
             if (!string.IsNullOrEmpty(cardHolderName) && cardNumber is not null && expiration is not null && securityNumber is not null && cardType is not null)
             {
-                AddDomainEvent(new AddCardDetailsDomainEvent(new CardDetail(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, Id)));
+                CardDetails = new List<CardDetail>
+                {
+                    new(cardHolderName, cardNumber.Value, expiration.Value, securityNumber.Value, cardType.Value, Id)
+                };
             }
         }
 
@@ -49,14 +49,19 @@ namespace bs.order.domain.Entities
         public string EmailAddress { get; private set; }
         public Address BillingAddress { get; private set; }
         public Consent Consents { get; private set; }
-        public IReadOnlyCollection<CardDetail> CardDetails => _cardDetails;
+        public IList<CardDetail> CardDetails { get; private set; }
         public IReadOnlyCollection<Order> Orders => _orders;
         public IReadOnlyCollection<Payment> Payments => _payments;
         public string GetFullName => $"{FirstName} {LastName}";
 
         public int GetAge => DateTime.Now.Year - Dob.Year;
 
-        public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType) =>
-            AddDomainEvent(new AddCardDetailsDomainEvent(new CardDetail(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id)));
+        public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType)
+        {
+            CardDetails = new List<CardDetail>
+            {
+                new(cardHolderName, cardNumber, expiration, securityNumber, cardType, Id)
+            };
+        }
     }
 }
