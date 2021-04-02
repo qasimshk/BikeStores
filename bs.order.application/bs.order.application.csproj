@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
     <Folder Include="Abstractions\" />
     <Folder Include="DomainEvents\" />
   </ItemGroup>
@@ -13,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.5.2" />
+    <PackageReference Include="MassTransit" Version="7.1.7" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
+    <ProjectReference Include="..\bs.order.domain\bs.order.domain.csproj" />
   </ItemGroup>
 
 </Project>
