@@ -1,19 +1,20 @@
 ﻿using bs.component.sharedkernal.Common;
+using bs.order.application.Commands.SubmitOrder;
+using bs.order.domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
-using bs.order.domain.Models;
 
 namespace bs.order.api.Controllers
 {
     public class OrderController : BaseController
     {
         [HttpPost("Submit")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(SubmitOrderResultDto),(int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public Task<IActionResult> Submit([FromBody] SubmitOrderDto request)
+        public async Task<IActionResult> Submit([FromBody] SubmitOrderDto request)
         {
-            return default;
+            return Ok(await _mediator.Send(new SubmitOrderCommand(request)));
         }
     }
 }

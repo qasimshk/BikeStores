@@ -1,7 +1,10 @@
-﻿namespace bs.order.domain.Models
+﻿using System;
+
+namespace bs.order.domain.Models
 {
     public record SubmitOrderDto(
-        CustomerDto Customer
+        Guid CorrelationId
+        , CustomerDto Customer
         , PaymentDto PaymentRequest
         , OrderDto Order);
 }

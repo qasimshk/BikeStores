@@ -1,9 +1,12 @@
-﻿using bs.order.domain.Enums;
+﻿using System;
+using bs.order.domain.Enums;
 
 namespace bs.order.domain.Models
 {
     public record CardDetailsDto(
-        int CustomerId
-        , CardType CardType
-        , string CardHolderName);
+        CardType CardType
+        , string CardHolderName
+        , DateTime Expiration
+        , int SecurityNumber
+        , string CardNumber);
 }
