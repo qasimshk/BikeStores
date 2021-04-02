@@ -1,6 +1,6 @@
 # Bike Stores Management
 
-![](https://github.com/qasimshk/CleverTalker/blob/master/BikeStore-System-Design.jpg)
+![](https://github.com/qasimshk/CleverTalker/blob/master/CleverTalker.png)
 
 A bike store management system is developed using the DotNet five framework, which is based on a microservice design pattern. In this project, I have used three microservices ( order, inventory, notification ) which is controlled by another microservice called orchestrator. This microservice contains all the workflows. 
 
@@ -10,7 +10,8 @@ Workflows are based on sagas pattern where every transaction action is predefine
 
 | Service | Status |
 | ------------- | ------------- |
-| Bike Store | https://dev.azure.com/CematixSolutions/Bike%20Stores/_apis/build/status/github-ci  |
+| Bike Store | [![Build status](https://dev.azure.com/CematixSolutions/CT%20Microservices/_apis/build/status/gateway-microservice-ci)](https://dev.azure.com/CematixSolutions/CT%20Microservices/_build/latest?definitionId=5) |
+
 
 ### Gateway Service
 
@@ -34,4 +35,4 @@ All services can only be accessible using a token, which is generated using the 
 - [MassTransit](https://masstransit-project.com/getting-started/)
 - [MediatR](https://github.com/jbogard/MediatR)
 - [Ocelot](https://ocelot.readthedocs.io/en/latest/index.html)
-- [Identity Server](https://identityserver4.readthedocs.io/en/latest/)
+- [IdentityServer4](https://identityserver4.readthedocs.io/en/latest/)
