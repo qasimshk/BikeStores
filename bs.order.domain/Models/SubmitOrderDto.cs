@@ -3,8 +3,7 @@
 namespace bs.order.domain.Models
 {
     public record SubmitOrderDto(
-        Guid CorrelationId
-        , CustomerDto Customer
+        CustomerDto Customer
         , PaymentDto PaymentRequest
         , OrderDto Order);
 }

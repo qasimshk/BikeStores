@@ -1,20 +1,23 @@
 ﻿using bs.component.core.Extensions;
 using bs.component.sharedkernal.Abstractions;
 using bs.order.domain.Entities;
+using bs.order.infrastructure.Persistence.Configurations;
+using MassTransit.EntityFrameworkCoreIntegration;
+using MassTransit.EntityFrameworkCoreIntegration.Mappings;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace bs.order.infrastructure.Persistence.Context
 {
-    public class OrderDbContext : DbContext, IUnitOfWork
+    public class OrderDbContext : SagaDbContext, IUnitOfWork
     {
-        
         private readonly IMediator _mediator;
 
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
-        
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CardDetail> CardDetails { get; set; }
         public DbSet<Consent> Consents { get; set; }
@@ -32,6 +35,11 @@ namespace bs.order.infrastructure.Persistence.Context
         {
             await _mediator.DispatchDomainEventsAsync(this);
             return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        protected override IEnumerable<ISagaClassMap> Configurations
+        {
+            get { yield return new OrderStateEntityTypeConfiguration(); }
         }
     }
 }

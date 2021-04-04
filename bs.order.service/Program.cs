@@ -1,9 +1,12 @@
+using bs.component.core.Extensions;
+using bs.order.service.Infrastructure.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace bs.order.service
 {
@@ -14,11 +17,30 @@ namespace bs.order.service
             CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(config => config.AddUserSecrets(Assembly.GetExecutingAssembly()))
+                .ConfigureHostConfiguration(cfg =>
+                {
+                    cfg.SetBasePath(Directory.GetCurrentDirectory());
+                    cfg.AddJsonFile("appsettings.json", true, true);
+                    cfg.AddJsonFile($"appsettings.{GetValueByKey(args, "environment")}.json", true, true);
+                    cfg.AddEnvironmentVariables().Build();
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    services
+                        .AddServiceConfiguration(hostContext.Configuration)
+                        .AddHandler()
+                        .AddApplicationLogging(hostContext.Configuration)
+                        .AddEventBus(hostContext.Configuration)
+                        .AddApplicationModules()
+                        .AddHostedService<Worker>();
                 });
+
+        private static string GetValueByKey(IEnumerable<string> args, string key)
+        {
+            return args.First(x => x.Contains(key)).Split('=').Last();
+        }
     }
 }

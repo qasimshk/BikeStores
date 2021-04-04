@@ -10,7 +10,7 @@ namespace bs.component.core.Extensions
 {
     public static class ApplicationDbContextExtension
     {
-        public static IServiceCollection AddApplicationDbContextExtension<TDbContext>(this IServiceCollection services, IConfiguration configuration) where TDbContext : DbContext
+        public static IServiceCollection AddApplicationDbContext<TDbContext>(this IServiceCollection services, IConfiguration configuration) where TDbContext : DbContext
         {
             services.AddDbContext<TDbContext>(options =>
                 {

@@ -19,4 +19,8 @@
     <Folder Include="Infrastructure\Extractions\" />
     <Folder Include="Workflows\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
+  </ItemGroup>
 </Project>

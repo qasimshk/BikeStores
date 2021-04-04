@@ -1,34 +1,24 @@
-﻿using bs.component.sharedkernal.Extensions;
+﻿using bs.component.core.Extensions;
+using bs.order.api.Infrastructure.Configurations;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
+using Microsoft.Extensions.Options;
 
 namespace bs.order.api.Infrastructure.Extensions
 {
     public static class AddEventBusExtensions
     {
-        public static IServiceCollection AddEventBus(this IServiceCollection services, string eventBusConnection)
+        public static IServiceCollection AddEventBus(this IServiceCollection services)
         {
+            var appConfig = services.BuildServiceProvider().GetRequiredService<IOptions<ApplicationConfig>>().Value;
+
             services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 
             services.AddMassTransit(cfg =>
             {
-                cfg.ApplyCustomMassTransitConfiguration();
-
-                cfg.SetKebabCaseEndpointNameFormatter();
-
-                cfg.UsingRabbitMq((context, rabbitMqBusFactoryConfigurator) =>
-                {
-                    rabbitMqBusFactoryConfigurator.Host(eventBusConnection);
-
-                    MessageDataDefaults.ExtraTimeToLive = TimeSpan.FromDays(1);
-                    MessageDataDefaults.Threshold = 2000;
-                    MessageDataDefaults.AlwaysWriteToRepository = false;
-
-                    rabbitMqBusFactoryConfigurator.ConfigureEndpoints(context);
-                });
+                cfg.AddBusConfigurator(appConfig.EventBusConnection);
             });
 
             services.AddMassTransitHostedService();

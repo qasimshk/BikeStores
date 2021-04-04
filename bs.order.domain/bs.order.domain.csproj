@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
   </ItemGroup>
 

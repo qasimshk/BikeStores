@@ -6,18 +6,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="MassTransit" Version="7.1.7" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.1.7" />
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="7.1.7" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.1.7" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.1.7" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Consumers\" />
     <Folder Include="Activities\" />
-    <Folder Include="Infrastructure\Configurations\" />
-    <Folder Include="Infrastructure\Extensions\" />
     <Folder Include="DomainEvents\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
+    <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
+    <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
+    <ProjectReference Include="..\bs.order.domain\bs.order.domain.csproj" />
+    <ProjectReference Include="..\bs.order.infrastructure\bs.order.infrastructure.csproj" />
   </ItemGroup>
 </Project>

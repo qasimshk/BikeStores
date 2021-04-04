@@ -1,5 +1,4 @@
 using bs.component.core.Extensions;
-using bs.order.api.Infrastructure.Configurations;
 using bs.order.api.Infrastructure.Extensions;
 using bs.order.application.Extensions;
 using bs.order.infrastructure.Persistence.Context;
@@ -25,14 +24,13 @@ namespace bs.order.api
         
         public void ConfigureServices(IServiceCollection services)
         {
-            var appConfig = _configuration.GetSection(nameof(ApplicationConfig)).Get<ApplicationConfig>();
-
             services
-                .AddApplicationDbContextExtension<OrderDbContext>(_configuration)
+                .AddServiceConfiguration(_configuration)
+                .AddApplicationMvc(ServiceName)
+                .AddApplicationDbContext<OrderDbContext>(_configuration)
                 .AddHandlers()
                 .AddApplicationLogging(_configuration)
-                .AddEventBus(appConfig.EventBusConnection)
-                .AddApplicationMvc(ServiceName)
+                .AddEventBus()
                 .AddApplicationModules();
         }
         
