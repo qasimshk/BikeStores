@@ -11,7 +11,7 @@ namespace bs.component.integrations.Customers
         public string FirstName { get; }
         public string LastName { get; }
         public DateTime Dob { get; }
-        public string PhoneNumber { get; }
+        public int PhoneNumber { get; }
         public string EmailAddress { get; }
         public IAddress BillingAddress { get; }
         public IConsent Consents { get; }

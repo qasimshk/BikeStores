@@ -85,6 +85,10 @@ namespace bs.order.Tests.Domains
             var result = _context.Customers.First(x => x.EmailAddress == emailThree);
 
             //Assert
+            result.CardDetails.First().GetCardNumber.Should().Be("xxxx xxxx xxxx 4444");
+
+            result.CardDetails.First().GetExpiration.Should().Be("09/50");
+
             result.Id.Should().NotBe(0);
         }
 

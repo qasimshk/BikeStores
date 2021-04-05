@@ -56,6 +56,26 @@ namespace bs.order.domain.Entities
 
         public int GetAge => DateTime.Now.Year - Dob.Year;
 
+        public Customer UpdatePersonalDetails(Customer customer)
+        {
+            if (!string.IsNullOrEmpty(customer.FirstName) && FirstName != customer.FirstName)
+            {
+                FirstName = customer.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(customer.LastName) && FirstName != customer.LastName)
+            {
+                FirstName = customer.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(customer.PhoneNumber) && FirstName != customer.PhoneNumber)
+            {
+                PhoneNumber = customer.PhoneNumber;
+            }
+
+            return this;
+        }
+
         public void AddCardDetails(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType)
         {
             CardDetails = new List<CardDetail>

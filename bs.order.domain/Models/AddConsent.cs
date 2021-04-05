@@ -4,16 +4,9 @@ namespace bs.order.domain.Models
 {
     public class AddConsent : IConsent
     {
-        private readonly IConsent _consent;
-
-        public AddConsent(IConsent consent)
-        {
-            _consent = consent;
-        }
-
-        public bool ContactByEmail => _consent.ContactByEmail;
-        public bool ContactByText => _consent.ContactByText;
-        public bool ContactByCall => _consent.ContactByCall;
-        public bool ContactByPost => _consent.ContactByPost;
+        public bool ContactByEmail { get; init; }
+        public bool ContactByText { get; init; }
+        public bool ContactByCall { get; init; }
+        public bool ContactByPost { get; init; }
     }
 }

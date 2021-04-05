@@ -1,12 +1,14 @@
-﻿using System;
-using System.Linq;
+﻿using bs.component.integrations.Common;
 using bs.component.integrations.Customers;
-using MassTransit;
-using System.Threading.Tasks;
-using bs.component.integrations.Common;
+using bs.component.sharedkernal.Utility;
 using bs.order.domain.Entities;
 using bs.order.domain.Enums;
+using bs.order.domain.Models;
 using bs.order.domain.Repositories;
+using MassTransit;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace bs.order.service.Consumers
 {
@@ -23,59 +25,65 @@ namespace bs.order.service.Consumers
         {
             try
             {
-                var customerEmail = await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress);
-            
-                var customer = new Customer(
-                    context.Message.FirstName
-                    , context.Message.LastName
-                    , context.Message.Dob
-                    , context.Message.PhoneNumber
-                    , context.Message.EmailAddress
-                    , new Address(
-                        context.Message.BillingAddress.Street
-                        , context.Message.BillingAddress.City
-                        , context.Message.BillingAddress.Country
-                        , context.Message.BillingAddress.PostCode)
-                    , context.Message.Consents.ContactByEmail
-                    , context.Message.Consents.ContactByText
-                    , context.Message.Consents.ContactByCall
-                    , context.Message.Consents.ContactByPost);
+                var customer = GetCustomerObject(context.Message);
 
-                if (context.Message.CardDetails != null && context.Message.CardDetails.Any())
-                {
-                    foreach (var cardDetail in context.Message.CardDetails)
-                    {
-                        customer.AddCardDetails(cardDetail.CardHolderName, cardDetail.CardNumber, cardDetail.Expiry, cardDetail.SecurityNumber, (CardType)cardDetail.CardType);
-                    }
-                }
+                var checkCustomer = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).ToList();
 
-                if (!customerEmail.Any())
+                if (!checkCustomer.Any())
                 {
                     _customerRepository.Add(customer);
                 }
                 else
                 {
-                    _customerRepository.Update(customer);
+                    _customerRepository.Update(checkCustomer.Single().UpdatePersonalDetails(customer));
                 }
 
                 await _customerRepository.UnitOfWork.SaveEntitiesAsync();
 
-                var result = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).First();
+                var result = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).Single();
 
-                await context.RespondAsync<ICustomerCreated>(new
+                await context.RespondAsync<ICustomerCreated>(new CustomerCreated
                 {
-                    context.Message.CorrelationId,
-                    result.Id
+                    CorrelationId = context.Message.CorrelationId,
+                    CustomerId = result.Id
                 });
             }
             catch (Exception ex)
             {
-                await context.RespondAsync<IOrderProcessingFailed>(new
+                await context.RespondAsync<IOrderProcessingFailed>(new OrderProcessingFailed
                 {
-                    context.Message.CorrelationId,
-                    ex.Message
+                    CorrelationId = context.Message.CorrelationId,
+                    ErrorMessage = ErrorUtility.BuildExceptionDetail(ex)
                 });
             }
+        }
+
+        private Customer GetCustomerObject(ICustomer context)
+        {
+            var customer = new Customer(
+                context.FirstName
+                , context.LastName
+                , context.Dob
+                , context.PhoneNumber.ToString()
+                , context.EmailAddress
+                , new Address(
+                    context.BillingAddress.Street
+                    , context.BillingAddress.City
+                    , context.BillingAddress.Country
+                    , context.BillingAddress.PostCode)
+                , context.Consents.ContactByEmail
+                , context.Consents.ContactByText
+                , context.Consents.ContactByCall
+                , context.Consents.ContactByPost);
+
+            if (context.CardDetails != null && context.CardDetails.Any())
+            {
+                foreach (var cardDetail in context.CardDetails)
+                {
+                    customer.AddCardDetails(cardDetail.CardHolderName, cardDetail.CardNumber, cardDetail.Expiry, cardDetail.SecurityNumber, (CardType)cardDetail.CardType);
+                }
+            }
+            return customer;
         }
     }
 }

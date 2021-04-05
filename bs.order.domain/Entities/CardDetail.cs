@@ -22,7 +22,7 @@ namespace bs.order.domain.Entities
                 throw new OrderingDomainException("This card is no longer valid");
             }
 
-            _cardNumber = cardNumber;
+            _cardNumber = MaskCardNumber(cardNumber.ToString());
             _expiration = expiration;
             _securityNumber = securityNumber;
 
@@ -31,7 +31,7 @@ namespace bs.order.domain.Entities
             _customerId = customerId;
         }
 
-        private readonly long _cardNumber;
+        private readonly string _cardNumber;
         private readonly DateTime _expiration;
         private readonly int _securityNumber;
         private readonly int _customerId;
@@ -40,7 +40,13 @@ namespace bs.order.domain.Entities
         public IReadOnlyCollection<Payment> Payments => _payments;
         public CardType CardType { get; private set; }
         public string CardHolderName { get; private set; }
-        public string CardNumber => $"xxxx xxxx xxxx {_cardNumber.ToString().Substring(12, 4)}";
-        public string Expiration => _expiration.ToString("MM/yy");
+
+        public string GetCardNumber => _cardNumber;
+        public string GetExpiration => _expiration.ToString("MM/yy");
+
+        string MaskCardNumber(string cardNumber)
+        {
+            return $"xxxx xxxx xxxx {cardNumber.Substring(12, 4)}";
+        }
     }
 }

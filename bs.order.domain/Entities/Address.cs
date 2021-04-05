@@ -19,7 +19,7 @@ namespace bs.order.domain.Entities
         public string City { get; private set; }
         public string Country { get; private set; }
         public string PostCode { get; private set; }
-
+        
         public override string ToString()
         {
             return $"{Street} {PostCode} {City} {Country}";

@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace bs.order.service.Infrastructure.Extensions
 {
@@ -26,6 +25,8 @@ namespace bs.order.service.Infrastructure.Extensions
 
             services.AddMassTransit(cfg =>
             {
+                cfg.AddRabbitMqMessageScheduler();
+
                 cfg.AddSagaStateMachine<OrderStateMachine, OrderState>()
                     .EntityFrameworkRepository(ef =>
                     {
@@ -34,24 +35,17 @@ namespace bs.order.service.Infrastructure.Extensions
                         {
                             builder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
                             {
-                                sqlOptions.EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), null);
                                 sqlOptions.MigrationsHistoryTable($"__{nameof(OrderDbContext)}");
                             });
                         });
                     });
 
-                cfg.AddBusConfigurator(appConfig.EventBusConnection);
-
-                cfg.AddRabbitMqMessageScheduler();
-
                 cfg.AddConsumersFromNamespaceContaining<CustomerConsumer>();
-            });
 
-            services.AddMassTransitHostedService();
+                cfg.AddBusConfigurator(appConfig.EventBusConnection);
+            });
 
             return services;
         }
-
-        
     }
 }

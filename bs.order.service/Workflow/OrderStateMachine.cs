@@ -5,7 +5,6 @@ using bs.component.integrations.Orders;
 using bs.component.integrations.Payments;
 using bs.component.integrations.Requests;
 using bs.order.domain.Entities;
-using bs.order.domain.Models;
 using System;
 
 namespace bs.order.service.Workflow
@@ -14,6 +13,7 @@ namespace bs.order.service.Workflow
     {
         public OrderStateMachine()
         {
+            Event(() => OrderSubmitEvent, c => c.CorrelateById(x => x.Message.CorrelationId));
             Event(() => CustomerCreatedEvent, c => c.CorrelateById(x => x.Message.CorrelationId));
             Event(() => PaymentCreatedEvent, p => p.CorrelateById(x => x.Message.CorrelationId));
             Event(() => OrderCreatedEvent, o => o.CorrelateById(x => x.Message.CorrelationId));
@@ -24,13 +24,19 @@ namespace bs.order.service.Workflow
                 When(OrderSubmitEvent)
                     .Then(context =>
                     {
-                        context.Instance.TransactionRef = context.Data.Payment.PaymentRef;
+                        context.Instance.CorrelationId = context.Data.CorrelationId;
+                        context.Instance.CreatedOn = DateTime.Now.Date;
+                        context.Instance.TransactionRef = Guid.NewGuid(); //context.Data.Payment.PaymentRef;
                     })
-                    .TransitionTo(ProcessingOrder)
-                    .Publish(context => new CreateCustomer(context.Data.Customer)));
+                    .Publish(context => context.Data.Customer)
+                    .TransitionTo(ProcessingOrder));
 
             During(ProcessingOrder,
                 When(CustomerCreatedEvent)
+                    .Then(context =>
+                    {
+                        context.Instance.CustomerId = context.Data.CustomerId;
+                    })
                     .TransitionTo(CustomerAddedOrUpdated));
 
             DuringAny(
@@ -41,6 +47,8 @@ namespace bs.order.service.Workflow
                         context.Instance.ErrorMessage = context.Data.ErrorMessage;
                     })
                     .TransitionTo(OrderProcessingFailed));
+
+            SetCompletedWhenFinalized();
         }
 
         #region State
@@ -55,7 +63,7 @@ namespace bs.order.service.Workflow
 
         #region Events
 
-        public  Event<IOrderProcessingFailed> OrderProcessingFailedEvent { get; private set; }
+        public Event<IOrderProcessingFailed> OrderProcessingFailedEvent { get; private set; }
         public Event<IOrderSubmit> OrderSubmitEvent { get; private set; }
         public Event<ICustomerCreated> CustomerCreatedEvent { get; private set; }
         public Event<IPaymentCreated> PaymentCreatedEvent { get; private set; }

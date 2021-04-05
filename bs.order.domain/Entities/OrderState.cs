@@ -13,6 +13,6 @@ namespace bs.order.domain.Entities
         public int CustomerId { get; set; }
         public int OrderId { get; set; }
         public int PaymentId { get; set; }
-        public string ErrorMessage { get; set; } = string.Empty;
+        public string ErrorMessage { get; set; }
     }
 }

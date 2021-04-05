@@ -5,17 +5,10 @@ namespace bs.order.domain.Models
 {
     public class AddCardDetail : ICardDetail
     {
-        private readonly ICardDetail _cardDetail;
-
-        public AddCardDetail(ICardDetail cardDetail)
-        {
-            _cardDetail = cardDetail;
-        }
-
-        public long CardNumber => _cardDetail.CardNumber;
-        public int CardType => _cardDetail.CardType;
-        public DateTime Expiry => _cardDetail.Expiry;
-        public string CardHolderName => _cardDetail.CardHolderName;
-        public int SecurityNumber => _cardDetail.SecurityNumber;
+        public long CardNumber { get; init; }
+        public int CardType { get; init; }
+        public DateTime Expiry { get; init; }
+        public string CardHolderName { get; init; }
+        public int SecurityNumber { get; init; }
     }
 }

@@ -11,10 +11,6 @@ namespace bs.order.infrastructure.Persistence.Configurations
         {
             builder.ToTable(nameof(OrderState));
 
-            builder.HasKey(x => x.CorrelationId);
-
-            builder.Property(x => x.CorrelationId).IsRequired();
-
             builder.Property(x => x.CurrentState).HasMaxLength(64);
 
             builder.Property(x => x.CreatedOn);

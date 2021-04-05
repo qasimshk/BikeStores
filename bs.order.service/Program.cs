@@ -1,4 +1,5 @@
 using bs.component.core.Extensions;
+using bs.order.infrastructure.Persistence.Context;
 using bs.order.service.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace bs.order.service
                         .AddServiceConfiguration(hostContext.Configuration)
                         .AddHandler()
                         .AddApplicationLogging(hostContext.Configuration)
+                        .AddApplicationDbContext<OrderDbContext>(hostContext.Configuration)
                         .AddEventBus(hostContext.Configuration)
                         .AddApplicationModules()
                         .AddHostedService<Worker>();
@@ -40,7 +42,7 @@ namespace bs.order.service
 
         private static string GetValueByKey(IEnumerable<string> args, string key)
         {
-            return args.First(x => x.Contains(key)).Split('=').Last();
+            return args.Single(x => x.Contains(key)).Split('=').Last();
         }
     }
 }
