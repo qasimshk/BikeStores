@@ -53,21 +53,21 @@ namespace bs.order.service.Workflow
 
         #region State
 
-        public State ProcessingOrder { get; private set; }
-        public State CustomerAddedOrUpdated { get; private set; }
-        public State PaymentEntryCreated { get; private set; }
-        public State OrderSubmitted { get; private set; }
-        public State OrderProcessingFailed { get; private set; }
+        private State ProcessingOrder { get; set; }
+        private State CustomerAddedOrUpdated { get; set; }
+        private State PaymentEntryCreated { get; set; }
+        private State OrderSubmitted { get; set; }
+        private State OrderProcessingFailed { get; set; }
 
         #endregion
 
         #region Events
 
-        public Event<IOrderProcessingFailed> OrderProcessingFailedEvent { get; private set; }
-        public Event<IOrderSubmit> OrderSubmitEvent { get; private set; }
-        public Event<ICustomerCreated> CustomerCreatedEvent { get; private set; }
-        public Event<IPaymentCreated> PaymentCreatedEvent { get; private set; }
-        public Event<IOrderCreated> OrderCreatedEvent { get; private set; }
+        private Event<IOrderProcessingFailedEvent> OrderProcessingFailedEvent { get; set; }
+        private Event<IOrderSubmitEvent> OrderSubmitEvent { get; set; }
+        private Event<ICustomerCreatedEvent> CustomerCreatedEvent { get; set; }
+        private Event<IPaymentCreatedEvent> PaymentCreatedEvent { get; set; }
+        private Event<IOrderCreatedEvent> OrderCreatedEvent { get; set; }
 
         #endregion
     }

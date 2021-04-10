@@ -14,7 +14,7 @@ namespace bs.order.application.Commands.SubmitOrder
     public class SubmitOrderCommandHandler : IRequestHandler<SubmitOrderCommand, SubmitOrderResultDto>
     {
         private readonly IPublishEndpoint _publishEndpoint;
-        private List<ICardDetail> _cardDetails;
+        private List<ICardDetailEvent> _cardDetails;
         
         public SubmitOrderCommandHandler(IPublishEndpoint publishEndpoint)
         {
@@ -27,7 +27,7 @@ namespace bs.order.application.Commands.SubmitOrder
             
             if (request.Customer.CardDetails != null)
             {
-                _cardDetails = new List<ICardDetail>
+                _cardDetails = new List<ICardDetailEvent>
                 {
                     new AddCardDetail
                     {
@@ -40,12 +40,12 @@ namespace bs.order.application.Commands.SubmitOrder
                 };
             }
             
-            await _publishEndpoint.Publish<IOrderSubmit>(new OrderSubmit
+            await _publishEndpoint.Publish<IOrderSubmitEvent>(new OrderSubmit
             {
-                CorrelationId = request.CorrelationId,
+                CorrelationId = request.OrderRef,
                 Customer = new CreateCustomer
                 {
-                    CorrelationId = request.CorrelationId,
+                    CorrelationId = request.OrderRef,
                     FirstName = request.Customer.FirstName,
                     LastName = request.Customer.LastName,
                     Dob = request.Customer.DateOfBirth,
@@ -73,7 +73,6 @@ namespace bs.order.application.Commands.SubmitOrder
 
             return new SubmitOrderResultDto
             {
-                CorrelationId = request.CorrelationId,
                 PaymentRef = transactionalPaymentRef,
                 OrderRef = request.OrderRef,
                 OrderStatus = OrderStatus.Paid.ToString()

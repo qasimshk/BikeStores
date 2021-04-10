@@ -6,13 +6,13 @@ using System;
 
 namespace bs.order.domain.Models
 {
-    public class OrderSubmit : IOrderSubmit
+    public class OrderSubmit : IOrderSubmitEvent
     {
-        public ICustomer Customer { get; init; }
+        public ICustomerEvent Customer { get; init; }
 
-        public IPayment Payment { get; init; }
+        public IPaymentEvent Payment { get; init; }
 
-        public IOrder Order { get; init; }
+        public IOrderEvent Order { get; init; }
 
         public Guid CorrelationId { get; init; }
     }

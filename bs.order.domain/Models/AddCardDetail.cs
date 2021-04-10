@@ -3,7 +3,7 @@ using bs.component.integrations.Customers;
 
 namespace bs.order.domain.Models
 {
-    public class AddCardDetail : ICardDetail
+    public class AddCardDetail : ICardDetailEvent
     {
         public long CardNumber { get; init; }
         public int CardType { get; init; }

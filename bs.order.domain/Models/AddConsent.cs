@@ -2,7 +2,7 @@
 
 namespace bs.order.domain.Models
 {
-    public class AddConsent : IConsent
+    public class AddConsent : IConsentEvent
     {
         public bool ContactByEmail { get; init; }
         public bool ContactByText { get; init; }

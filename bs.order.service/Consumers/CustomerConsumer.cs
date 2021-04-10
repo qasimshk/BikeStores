@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace bs.order.service.Consumers
 {
-    public class CustomerConsumer : IConsumer<ICustomer>
+    public class CustomerConsumer : IConsumer<ICustomerEvent>
     {
         private readonly ICustomerRepository _customerRepository;
 
@@ -21,7 +21,7 @@ namespace bs.order.service.Consumers
             _customerRepository = customerRepository;
         }
 
-        public async Task Consume(ConsumeContext<ICustomer> context)
+        public async Task Consume(ConsumeContext<ICustomerEvent> context)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace bs.order.service.Consumers
 
                 var result = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).Single();
 
-                await context.RespondAsync<ICustomerCreated>(new CustomerCreated
+                await context.RespondAsync<ICustomerCreatedEvent>(new CustomerCreated
                 {
                     CorrelationId = context.Message.CorrelationId,
                     CustomerId = result.Id
@@ -50,7 +50,7 @@ namespace bs.order.service.Consumers
             }
             catch (Exception ex)
             {
-                await context.RespondAsync<IOrderProcessingFailed>(new OrderProcessingFailed
+                await context.RespondAsync<IOrderProcessingFailedEvent>(new OrderProcessingFailed
                 {
                     CorrelationId = context.Message.CorrelationId,
                     ErrorMessage = ErrorUtility.BuildExceptionDetail(ex)
@@ -58,7 +58,7 @@ namespace bs.order.service.Consumers
             }
         }
 
-        private Customer GetCustomerObject(ICustomer context)
+        private Customer GetCustomerObject(ICustomerEvent context)
         {
             var customer = new Customer(
                 context.FirstName

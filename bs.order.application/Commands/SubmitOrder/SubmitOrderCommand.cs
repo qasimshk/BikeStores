@@ -6,7 +6,6 @@ namespace bs.order.application.Commands.SubmitOrder
 {
     public class SubmitOrderCommand : IRequest<SubmitOrderResultDto>
     {
-        public Guid CorrelationId;
         public Guid OrderRef;
         public Guid PaymentRef { get; set; }
         public CustomerDto Customer { get; }
@@ -15,9 +14,7 @@ namespace bs.order.application.Commands.SubmitOrder
         
         public SubmitOrderCommand(SubmitOrderDto submitOrder)
         {
-            CorrelationId = Guid.NewGuid();
             OrderRef = Guid.NewGuid();
-
             Customer = submitOrder.Customer;
             Payment = submitOrder.PaymentRequest;
             Order = submitOrder.Order;

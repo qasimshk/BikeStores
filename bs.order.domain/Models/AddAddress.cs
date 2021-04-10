@@ -2,7 +2,7 @@
 
 namespace bs.order.domain.Models
 {
-    public class AddAddress : IAddress
+    public class AddAddress : IAddressEvent
     {
         public string Street { get; init; }
         public string City { get; init; }

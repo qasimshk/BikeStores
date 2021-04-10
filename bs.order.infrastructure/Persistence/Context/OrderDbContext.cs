@@ -1,10 +1,8 @@
-﻿using bs.component.core.Extensions;
-using bs.component.sharedkernal.Abstractions;
+﻿using bs.component.sharedkernal.Abstractions;
 using bs.order.domain.Entities;
 using bs.order.infrastructure.Persistence.Configurations;
 using MassTransit.EntityFrameworkCoreIntegration;
 using MassTransit.EntityFrameworkCoreIntegration.Mappings;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading;
@@ -14,8 +12,6 @@ namespace bs.order.infrastructure.Persistence.Context
 {
     public class OrderDbContext : SagaDbContext, IUnitOfWork
     {
-        private readonly IMediator _mediator;
-
         public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
 
         public DbSet<Customer> Customers { get; set; }
@@ -33,7 +29,6 @@ namespace bs.order.infrastructure.Persistence.Context
 
         public async Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
-            await _mediator.DispatchDomainEventsAsync(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
 

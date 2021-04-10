@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistence\Repositories\" />
+    <Folder Include="Persistence\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.1.7" />
+    <PackageReference Include="MassTransit.EntityFrameworkCore" Version="7.1.7" />
+    <PackageReference Include="MediatR" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
+    <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
+    <ProjectReference Include="..\bs.inventory.domain\bs.inventory.domain.csproj" />
+  </ItemGroup>
+
+</Project>
