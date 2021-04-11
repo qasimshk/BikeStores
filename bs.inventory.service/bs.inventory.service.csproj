@@ -8,4 +8,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Consumers\" />
+    <Folder Include="Ochestrator\" />
+  </ItemGroup>
 </Project>

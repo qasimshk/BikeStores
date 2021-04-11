@@ -4,6 +4,8 @@ namespace bs.inventory.domain.Entities
 {
     public class BasketItem : Entity
     {
+        protected BasketItem() { }
+
         public BasketItem(int productId, int quantity, double amount, int basketId)
         {
             _basketId = basketId;

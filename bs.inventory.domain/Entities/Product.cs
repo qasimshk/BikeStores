@@ -1,17 +1,18 @@
 ﻿using bs.component.sharedkernal.Common;
 using System.Collections.Generic;
 using System.Linq;
+using bs.component.sharedkernal.Abstractions;
 
 namespace bs.inventory.domain.Entities
 {
-    public class Product : Entity
+    public class Product : Entity, IAggregateRoot
     {
         protected Product()
         {
             _stocks = new List<Stock>();
         }
 
-        public Product(string name, int modelYear, double listPrice, int brandId, int categoryId, int storeId, int quantity)
+        public Product(string name, int modelYear, double listPrice, int brandId, int categoryId, int storeId, int quantity) : this()
         {
             _brandId = brandId;
             _categoryId = categoryId;

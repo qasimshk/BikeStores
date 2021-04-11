@@ -1,5 +1,6 @@
 using bs.component.core.Extensions;
 using bs.inventory.api.Infrastructure.Extensions;
+using bs.inventory.application.Extensions;
 using bs.inventory.infrastructure.Persistence.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,6 +26,8 @@ namespace bs.inventory.api
             services
                 .AddApplicationMvc(ServiceName)
                 .AddApplicationDbContext<InventoryDbContext>(_configuration)
+                .AddHandlers()
+                .AddApplicationLogging(_configuration)
                 .AddApplicationModules();
         }
         

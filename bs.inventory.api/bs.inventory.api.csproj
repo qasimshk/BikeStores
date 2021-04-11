@@ -7,17 +7,19 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
     <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
+    <ProjectReference Include="..\bs.inventory.application\bs.inventory.application.csproj" />
+    <ProjectReference Include="..\bs.inventory.domain\bs.inventory.domain.csproj" />
     <ProjectReference Include="..\bs.inventory.infrastructure\bs.inventory.infrastructure.csproj" />
   </ItemGroup>
 

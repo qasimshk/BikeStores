@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using bs.inventory.domain.Respositories;
+using bs.inventory.infrastructure.Persistence.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace bs.inventory.api.Infrastructure.Extensions
 {
@@ -6,8 +8,11 @@ namespace bs.inventory.api.Infrastructure.Extensions
     {
         public static IServiceCollection AddApplicationModules(this IServiceCollection services)
         {
-           
-
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IStoreRepository, StoreRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             return services;
         }
     }

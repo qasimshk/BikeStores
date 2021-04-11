@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Persistence\Repositories\" />
     <Folder Include="Persistence\Queries\" />
   </ItemGroup>
 
@@ -13,6 +12,10 @@
     <PackageReference Include="MassTransit" Version="7.1.7" />
     <PackageReference Include="MassTransit.EntityFrameworkCore" Version="7.1.7" />
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

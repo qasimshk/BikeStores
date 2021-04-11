@@ -14,15 +14,7 @@ namespace bs.inventory.infrastructure.Persistence.Configurations
 
             builder.Property(b => b.BasketRef)
                 .IsRequired();
-
-            builder.Property<int>("_basketId")
-                .HasColumnName("BasketId")
-                .IsRequired();
-
-            builder.Property<int>("_productId")
-                .HasColumnName("ProductId")
-                .IsRequired();
-
+            
             builder.HasMany(b => b.BasketItems)
                 .WithOne(b => b.Basket)
                 .HasForeignKey("_basketId")

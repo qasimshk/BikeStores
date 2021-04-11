@@ -21,7 +21,7 @@ namespace bs.identity.api.Controllers
         [EnableQuery()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Employee(Guid employeeId)
+        public async Task<IActionResult> Employee([FromRoute] Guid employeeId)
         {
             if (employeeId == Guid.Empty)
             {
@@ -76,7 +76,7 @@ namespace bs.identity.api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> EmailConfirmed(Guid employeeId)
+        public async Task<IActionResult> EmailConfirmed([FromRoute] Guid employeeId)
         {
             if (employeeId == Guid.Empty)
             {

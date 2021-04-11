@@ -24,11 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Activities\" />
-    <Folder Include="DomainEvents\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
     <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
