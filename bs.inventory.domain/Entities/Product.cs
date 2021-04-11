@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using bs.component.sharedkernal.Abstractions;
+using bs.inventory.domain.Exceptions;
 
 namespace bs.inventory.domain.Entities
 {
@@ -14,6 +15,11 @@ namespace bs.inventory.domain.Entities
 
         public Product(string name, int modelYear, double listPrice, int brandId, int categoryId, int storeId, int quantity) : this()
         {
+            if (quantity == 0)
+            {
+                throw new ProductDomainException("Invalid quantity");
+            }
+
             _brandId = brandId;
             _categoryId = categoryId;
             Name = name.Trim();
@@ -31,7 +37,7 @@ namespace bs.inventory.domain.Entities
         private IList<Stock> _stocks;
 
         public IList<Stock> Stocks => _stocks;
-        public int InStock => _stocks.Select(x => x.Quantity()).Sum();
+        public int GetStock => _stocks.Select(x => x.Quantity()).Sum();
         public string Name { get; private set; }
         public Brand Brand { get; }
         public Category Category { get; }

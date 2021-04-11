@@ -22,17 +22,30 @@ namespace bs.inventory.application.Commands.AddBasket
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// Only one product can be added to the basket at one time. To add more products to the basket pass the product Id and quantity with the same basket ref.
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Unit> Handle(AddBasketCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"About to retrieve product with product Id: {request.BasketItem.ProductId} with basket ref: {request.BasketRef}");
+
             var product = await _productRepository.FindByConditionAsync(p => p.Id == request.BasketItem.ProductId);
+            
 
             if (!product.Any())
             {
+                _logger.LogError($"Product not found with Id: {request.BasketItem.ProductId} with basket ref: {request.BasketRef}");
+
                 throw new BadRequestException("Requested product is not found");
             }
 
-            if (request.BasketItem.Quantity > product.Single().InStock)
+            if (request.BasketItem.Quantity > product.Single().GetStock)
             {
+                _logger.LogError($"Product quantity excited the value in stock: {request.BasketItem.Quantity} with basket ref: {request.BasketRef}");
+
                 throw new BadRequestException("Requested quantity is greater then product stock");
             }
 
@@ -43,10 +56,14 @@ namespace bs.inventory.application.Commands.AddBasket
                 basket.Single().AddBasketItem(product.Single().Id, request.BasketItem.Quantity, product.Single().ListPrice);
 
                 _basketRepository.Update(basket.Single());
+
+                _logger.LogInformation($"Basket ref: {request.BasketRef} is about to be updated");
             }
             else
             {
                 _basketRepository.Add(new Basket(request.BasketRef, product.Single().Id, request.BasketItem.Quantity, product.Single().ListPrice));
+
+                _logger.LogInformation($"Basket ref: {request.BasketRef} is about to be created");
             }
 
             await _basketRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);

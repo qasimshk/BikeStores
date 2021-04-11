@@ -1,23 +1,26 @@
-﻿using System;
-using bs.component.sharedkernal.Common;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
+﻿using bs.component.sharedkernal.Common;
 using bs.inventory.application.Commands.AddBasket;
 using bs.inventory.domain.Models;
+using bs.inventory.infrastructure.Persistence.Queries.GetBasketValidated;
+using Microsoft.AspNet.OData;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace bs.inventory.api.Controllers
 {
     public class BasketController : BaseController
     {
-        [HttpGet("{BasketRef}/Validate")]
+        [HttpGet("{basketRef}/validate")]
         [EnableQuery()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ValidateBasket([FromRoute] Guid basketRef)
         {
-            return Ok();
+            if (basketRef == Guid.Empty) return BadRequest("Invalid basket reference");
+
+            return Ok(await _mediator.Send(new GetBasketValidatedQuery(basketRef)));
         }
 
         [HttpPost("Add")]

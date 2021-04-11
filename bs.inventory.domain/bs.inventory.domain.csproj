@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
     <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
     <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />

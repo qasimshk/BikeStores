@@ -1,4 +1,5 @@
 ﻿using bs.component.sharedkernal.Common;
+using bs.inventory.domain.Exceptions;
 
 namespace bs.inventory.domain.Entities
 {
@@ -8,6 +9,11 @@ namespace bs.inventory.domain.Entities
 
         public Stock(int storeId, int productId, int quantity)
         {
+            if (quantity == 0)
+            {
+                throw new StockDomainException("Invalid quantity");
+            }
+
             _storeId = storeId;
             _productId = productId;
             _stockIn = quantity;

@@ -1,4 +1,5 @@
 ﻿using bs.component.sharedkernal.Common;
+using bs.inventory.domain.Exceptions;
 
 namespace bs.inventory.domain.Entities
 {
@@ -8,6 +9,11 @@ namespace bs.inventory.domain.Entities
 
         public BasketItem(int productId, int quantity, double amount, int basketId)
         {
+            if (quantity == 0 || amount == 0)
+            {
+                throw new BasketItemDomainException("Invalid quantity or amount value");
+            }
+
             _basketId = basketId;
             _productId = productId;
             Quantity = quantity;
@@ -20,5 +26,7 @@ namespace bs.inventory.domain.Entities
         public Basket Basket { get; }
         public double Amount { get; private set; }
         public int Quantity { get; private set; }
+
+        public int GetProductId => _productId;
     }
 }

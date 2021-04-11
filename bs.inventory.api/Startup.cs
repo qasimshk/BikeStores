@@ -2,6 +2,7 @@ using bs.component.core.Extensions;
 using bs.inventory.api.Infrastructure.Extensions;
 using bs.inventory.application.Extensions;
 using bs.inventory.infrastructure.Persistence.Context;
+using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,8 @@ namespace bs.inventory.api
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.EnableDependencyInjection();
+                endpoints.Select().Expand().Filter().Count().OrderBy();
                 endpoints.MapControllers();
             });
         }

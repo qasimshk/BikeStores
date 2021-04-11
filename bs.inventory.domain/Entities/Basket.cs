@@ -26,7 +26,7 @@ namespace bs.inventory.domain.Entities
 
         public IList<BasketItem> BasketItems => _basketItems;
 
-        public double Total => _basketItems.Select(b => b.Amount).Sum();
+        public double GetTotal => _basketItems.Select(b => b.Amount).Sum();
 
         public void AddBasketItem(int productId, int quantity, double amount)
         {

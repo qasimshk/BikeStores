@@ -1,4 +1,5 @@
 ﻿using bs.component.sharedkernal.Behaviours;
+using bs.inventory.infrastructure.Persistence.Queries.GetBasketValidated;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace bs.inventory.application.Extensions
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(GetBasketValidatedQueryHandler).GetTypeInfo().Assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

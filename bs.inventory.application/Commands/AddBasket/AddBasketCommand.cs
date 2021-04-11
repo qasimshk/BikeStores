@@ -12,8 +12,8 @@ namespace bs.inventory.application.Commands.AddBasket
             BasketItem = addBasket.BasketItems;
         }
 
-        public Guid BasketRef { get; private set; }
+        public Guid BasketRef { get; }
 
-        public AddBasketItemDto BasketItem { get; private set; }
+        public AddBasketItemDto BasketItem { get; }
     }
 }
