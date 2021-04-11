@@ -46,9 +46,10 @@ namespace bs.inventory.infrastructure.Persistence.Queries.GetBasketValidated
 
                 var basketItem = new BasketItemsDto
                 {
+                    ProductRef = product.ProductRef,
+                    ProductName = product.Name,
                     Quantity = item.Quantity,
                     Price = product.ListPrice.RoundPrice(),
-                    ProductName = product.Name,
                     Status = item.Quantity > product.GetStock ? OutStock : InStock
                 };
                     

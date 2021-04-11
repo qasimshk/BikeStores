@@ -14,9 +14,9 @@ namespace bs.inventory.application.Commands.AddBasket
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide product quantity");
 
-            RuleFor(x => x.BasketItem.ProductId)
+            RuleFor(x => x.BasketItem.ProductRef)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Please provide product id");
+                .NotEmpty().WithMessage("Please provide product reference");
         }
     }
 }

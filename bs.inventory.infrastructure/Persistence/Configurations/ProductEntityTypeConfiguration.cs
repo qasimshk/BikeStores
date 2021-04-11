@@ -1,4 +1,5 @@
-﻿using bs.inventory.domain.Entities;
+﻿using System;
+using bs.inventory.domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,6 +22,10 @@ namespace bs.inventory.infrastructure.Persistence.Configurations
 
             builder.Property(p => p.ListPrice)
                 .IsRequired();
+
+            builder.Property<Guid>("ProductRef")
+                .HasColumnName("Reference")
+                .HasDefaultValueSql("NEWID()");
 
             builder.Property<int>("_brandId")
                 .HasColumnName("BrandId")

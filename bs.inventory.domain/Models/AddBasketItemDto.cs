@@ -3,6 +3,6 @@
 namespace bs.inventory.domain.Models
 {
     public record AddBasketItemDto(
-        int ProductId
+        Guid ProductRef
         , int Quantity);
 }

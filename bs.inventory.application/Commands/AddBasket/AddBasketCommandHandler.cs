@@ -23,21 +23,21 @@ namespace bs.inventory.application.Commands.AddBasket
         }
 
         /// <summary>
-        /// Only one product can be added to the basket at one time. To add more products to the basket pass the product Id and quantity with the same basket ref.
+        /// Only one product can be added to the basket at one time. To add more products to the basket pass the product reference and quantity with the same basket ref.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<Unit> Handle(AddBasketCommand request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"About to retrieve product with product Id: {request.BasketItem.ProductId} with basket ref: {request.BasketRef}");
+            _logger.LogInformation($"About to retrieve product with product ref: {request.BasketItem.ProductRef} with basket ref: {request.BasketRef}");
 
-            var product = await _productRepository.FindByConditionAsync(p => p.Id == request.BasketItem.ProductId);
+            var product = await _productRepository.FindByConditionAsync(p => p.ProductRef == request.BasketItem.ProductRef);
             
 
             if (!product.Any())
             {
-                _logger.LogError($"Product not found with Id: {request.BasketItem.ProductId} with basket ref: {request.BasketRef}");
+                _logger.LogError($"Product not found with Id: {request.BasketItem.ProductRef} with basket ref: {request.BasketRef}");
 
                 throw new BadRequestException("Requested product is not found");
             }

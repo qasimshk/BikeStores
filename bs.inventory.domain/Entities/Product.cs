@@ -1,4 +1,5 @@
-﻿using bs.component.sharedkernal.Common;
+﻿using System;
+using bs.component.sharedkernal.Common;
 using System.Collections.Generic;
 using System.Linq;
 using bs.component.sharedkernal.Abstractions;
@@ -36,6 +37,7 @@ namespace bs.inventory.domain.Entities
         private readonly int _categoryId;
         private IList<Stock> _stocks;
 
+        public Guid ProductRef { get; }
         public IList<Stock> Stocks => _stocks;
         public int GetStock => _stocks.Select(x => x.Quantity()).Sum();
         public string Name { get; private set; }
