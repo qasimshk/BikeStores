@@ -12,9 +12,9 @@ namespace bs.inventory.api.Controllers
 {
     public class BasketController : BaseController
     {
-        [HttpGet("{basketRef}/validate")]
+        [HttpGet("{basketRef}/Validate")]
         [EnableQuery()]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BasketValidateResultDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> ValidateBasket([FromRoute] Guid basketRef)
         {

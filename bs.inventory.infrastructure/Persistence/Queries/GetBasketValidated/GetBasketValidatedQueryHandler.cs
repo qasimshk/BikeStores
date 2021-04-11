@@ -1,9 +1,9 @@
-﻿using System;
-using bs.component.sharedkernal.Exceptions;
+﻿using bs.component.sharedkernal.Exceptions;
 using bs.inventory.domain.Models;
 using bs.inventory.domain.Respositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

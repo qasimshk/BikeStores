@@ -18,7 +18,7 @@ namespace bs.inventory.api.Controllers
             return Ok();
         }
 
-        [HttpGet("{Search}")]
+        [HttpGet("{search}")]
         [EnableQuery()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
