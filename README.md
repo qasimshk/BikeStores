@@ -1,6 +1,6 @@
 # Bike Stores Management
 
-![](https://github.com/qasimshk/CleverTalker/blob/master/CleverTalker.png)
+![](https://github.com/qasimshk/CleverTalker/blob/master/BikeStoreDiagram.png)
 
 A bike store management system is developed using the DotNet five framework, which is based on a microservice design pattern. In this project, I have used three microservices ( order, inventory, notification ) which is controlled by another microservice called orchestrator. This microservice contains all the workflows. 
 
