@@ -20,6 +20,7 @@ namespace bs.order.service
 
         private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseWindowsService()
                 .ConfigureAppConfiguration(config => config.AddUserSecrets(Assembly.GetExecutingAssembly()))
                 .ConfigureHostConfiguration(cfg =>
                 {

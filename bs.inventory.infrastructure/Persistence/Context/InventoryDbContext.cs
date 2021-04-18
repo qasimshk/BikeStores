@@ -42,7 +42,7 @@ namespace bs.inventory.infrastructure.Persistence.Context
         {
             get { yield return new InventoryStateEntityTypeConfiguration(); }
         }
-
+        
         public async Task<int> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
             await _mediator.DispatchDomainEventsAsync(this);

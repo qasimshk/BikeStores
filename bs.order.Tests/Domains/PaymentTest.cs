@@ -39,19 +39,7 @@ namespace bs.order.Tests.Domains
                 mockPayment.PaymentRef,
                 mockPayment.CardDetailId);
 
-            payment.MarkTransactionSuccessfulAndPlaceAnOrder(mockOrder.OrderRef,
-                new Address(mockOrder.DeliveryAddress.Street, 
-                    mockOrder.DeliveryAddress.City, 
-                    mockOrder.DeliveryAddress.Country, 
-                    mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
-                {
-                    new(mockOrderItem.ProductRef, 
-                        mockOrderItem.ProductName, 
-                        mockOrderItem.Quantity, 
-                        mockOrderItem.IndividualPrice, 
-                        mockOrderItem.OrderId)
-                });
+            payment.MarkTransactionSuccessful();
 
             _context.Payments.Add(payment);
 
@@ -60,8 +48,6 @@ namespace bs.order.Tests.Domains
             var result = _context.Payments.First(p => p.PaymentRef == mockPayment.PaymentRef);
 
             //Assert
-            result.DomainEvents.Count.Should().Be(1);
-
             result.Id.Should().NotBe(0);
 
             result.Status.Should().Be(TransactionStatus.Successful);
@@ -133,19 +119,7 @@ namespace bs.order.Tests.Domains
 
             _context.SaveChanges();
 
-            payment.MarkTransactionSuccessfulAndPlaceAnOrder(mockOrder.OrderRef,
-                new Address(mockOrder.DeliveryAddress.Street,
-                    mockOrder.DeliveryAddress.City,
-                    mockOrder.DeliveryAddress.Country,
-                    mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
-                {
-                    new(mockOrderItem.ProductRef,
-                        mockOrderItem.ProductName,
-                        mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
-                });
+            payment.MarkTransactionSuccessful();
             
             var result = _context.Payments.First(p => p.PaymentRef == mockPayment.PaymentRef);
 

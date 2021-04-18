@@ -1,9 +1,9 @@
 ﻿using System;
 using bs.component.integrations.Customers;
 
-namespace bs.order.domain.Models
+namespace bs.order.application.Events
 {
-    public class AddCardDetail : ICardDetailEvent
+    public class AddCardDetailEvent : ICardDetailEvent
     {
         public long CardNumber { get; init; }
         public int CardType { get; init; }

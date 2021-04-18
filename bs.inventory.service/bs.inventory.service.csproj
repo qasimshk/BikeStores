@@ -6,12 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
-    <Folder Include="Consumers\" />
-    <Folder Include="Ochestrator\" />
+    <ProjectReference Include="..\bs.component.core\bs.component.core.csproj" />
+    <ProjectReference Include="..\bs.component.integrations\bs.component.integrations.csproj" />
+    <ProjectReference Include="..\bs.component.sharedkernal\bs.component.sharedkernal.csproj" />
+    <ProjectReference Include="..\bs.inventory.domain\bs.inventory.domain.csproj" />
+    <ProjectReference Include="..\bs.inventory.infrastructure\bs.inventory.infrastructure.csproj" />
   </ItemGroup>
 </Project>

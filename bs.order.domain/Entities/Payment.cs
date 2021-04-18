@@ -1,10 +1,8 @@
 ﻿using bs.component.sharedkernal.Abstractions;
 using bs.component.sharedkernal.Common;
 using bs.order.domain.Enums;
-using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
-using System.Collections.Generic;
 
 namespace bs.order.domain.Entities
 {
@@ -41,11 +39,10 @@ namespace bs.order.domain.Entities
         public TransactionStatus Status { get; private set; }
         public DateTime? RefundedOn { get; private set; }
         
-        public void MarkTransactionSuccessfulAndPlaceAnOrder(Guid orderRef, Address deliveryAddress, List<OrderItem> orderItems)
+        public void MarkTransactionSuccessful()
         {
             Status = TransactionStatus.Successful;
             TransactionDate = DateTime.Now.Date;
-            AddDomainEvent(new PlaceAnOrderDomainEvent(orderRef, Id, _customerId, deliveryAddress, orderItems, this));
         }
 
         public void MarkTransactionAsDeclined()

@@ -1,6 +1,8 @@
-﻿using bs.component.sharedkernal.Exceptions;
-using bs.inventory.domain.Entities;
+﻿using bs.component.integrations.Basket;
+using bs.component.sharedkernal.Exceptions;
+using bs.inventory.application.Events;
 using bs.inventory.domain.Respositories;
+using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -12,14 +14,14 @@ namespace bs.inventory.application.Commands.AddBasket
     public class AddBasketCommandHandler : IRequestHandler<AddBasketCommand>
     {
         private readonly ILogger<AddBasketCommandHandler> _logger;
-        private readonly IBasketRepository _basketRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public AddBasketCommandHandler(ILogger<AddBasketCommandHandler> logger, IBasketRepository basketRepository, IProductRepository productRepository)
+        public AddBasketCommandHandler(ILogger<AddBasketCommandHandler> logger, IProductRepository productRepository, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
-            _basketRepository = basketRepository;
             _productRepository = productRepository;
+            _publishEndpoint = publishEndpoint;
         }
 
         /// <summary>
@@ -32,42 +34,32 @@ namespace bs.inventory.application.Commands.AddBasket
         {
             _logger.LogInformation($"About to retrieve product with product ref: {request.BasketItem.ProductRef} with basket ref: {request.BasketRef}");
 
-            var product = await _productRepository.FindByConditionAsync(p => p.ProductRef == request.BasketItem.ProductRef);
+            var result = await _productRepository.FindByConditionAsync(p => p.ProductRef == request.BasketItem.ProductRef);
             
-
-            if (!product.Any())
+            if (!result.Any())
             {
                 _logger.LogError($"Product not found with Id: {request.BasketItem.ProductRef} with basket ref: {request.BasketRef}");
 
                 throw new BadRequestException("Requested product is not found");
             }
 
-            if (request.BasketItem.Quantity > product.Single().GetStock)
+            var product = result.Single();
+
+            if (request.BasketItem.Quantity > product.GetStock)
             {
                 _logger.LogError($"Product quantity excited the value in stock: {request.BasketItem.Quantity} with basket ref: {request.BasketRef}");
 
                 throw new BadRequestException("Requested quantity is greater then product stock");
             }
 
-            var basket = await _basketRepository.FindByConditionAsync(b => b.BasketRef == request.BasketRef);
-
-            if (basket.Any())
+            await _publishEndpoint.Publish<ISubmitBasketEvent>(new SubmitBasketEvent
             {
-                basket.Single().AddBasketItem(product.Single().Id, request.BasketItem.Quantity, product.Single().ListPrice);
-
-                _basketRepository.Update(basket.Single());
-
-                _logger.LogInformation($"Basket ref: {request.BasketRef} is about to be updated");
-            }
-            else
-            {
-                _basketRepository.Add(new Basket(request.BasketRef, product.Single().Id, request.BasketItem.Quantity, product.Single().ListPrice));
-
-                _logger.LogInformation($"Basket ref: {request.BasketRef} is about to be created");
-            }
-
-            await _basketRepository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-
+                ProductPrice = product.ListPrice,
+                ProductId = product.Id,
+                Quantity = request.BasketItem.Quantity,
+                BasketRef = request.BasketRef
+            }, cancellationToken);
+            
             return Unit.Value;
         }
     }

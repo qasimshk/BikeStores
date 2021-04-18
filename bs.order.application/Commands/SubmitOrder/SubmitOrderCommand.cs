@@ -7,17 +7,16 @@ namespace bs.order.application.Commands.SubmitOrder
     public class SubmitOrderCommand : IRequest<SubmitOrderResultDto>
     {
         public Guid OrderRef;
-        public Guid PaymentRef { get; set; }
+        public Guid BasketRef { get; }
         public CustomerDto Customer { get; }
         public PaymentDto Payment { get; }
-        public OrderDto Order { get; }
         
         public SubmitOrderCommand(SubmitOrderDto submitOrder)
         {
             OrderRef = Guid.NewGuid();
             Customer = submitOrder.Customer;
             Payment = submitOrder.PaymentRequest;
-            Order = submitOrder.Order;
+            BasketRef = submitOrder.BasketRef;
         }
     }
 }

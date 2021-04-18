@@ -30,6 +30,9 @@ namespace bs.order.infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("CardNumberUnFormatted")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("CardType")
                         .HasColumnType("int");
 
@@ -203,6 +206,12 @@ namespace bs.order.infrastructure.Persistence.Migrations
                     b.Property<Guid>("CorrelationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("BasketRef")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CardDetailId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -219,10 +228,22 @@ namespace bs.order.infrastructure.Persistence.Migrations
                     b.Property<DateTime?>("FailedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("JsonCardDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JsonOrderItems")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<Guid>("OrderRef")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentType")
                         .HasColumnType("int");
 
                     b.Property<Guid>("TransactionRef")

@@ -32,7 +32,7 @@ namespace bs.order.domain.Entities
             BillingAddress = billingAddress;
             Dob = dob;
             Consents = new Consent(contactByEmail, contactByText, contactByCall, contactByPost, Id);
-            
+
             if (!string.IsNullOrEmpty(cardHolderName) && cardNumber is not null && expiration is not null && securityNumber is not null && cardType is not null)
             {
                 CardDetails = new List<CardDetail>

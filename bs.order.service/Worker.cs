@@ -21,12 +21,12 @@ namespace bs.order.service
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await _bus.StartAsync(stoppingToken);
-            _logger.LogInformation("Order Service started at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation($"Order Service started at: {DateTimeOffset.Now}");
         }
         
         public override async Task StopAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("Order Service stopped at: {time}", DateTimeOffset.Now);
+            _logger.LogInformation($"Order Service stopped at: {DateTimeOffset.Now}");
             await _bus.StopAsync(stoppingToken);
         }
     }

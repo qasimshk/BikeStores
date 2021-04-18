@@ -16,8 +16,8 @@ namespace bs.order.infrastructure.Persistence.Configurations
             builder.Property(x => x.CreatedOn);
 
             builder.Property(x => x.FailedOn);
-
-            builder.Property(x => x.TransactionRef).IsRequired();
+            
+            builder.Property(x => x.TransactionRef);
         }
     }
 }

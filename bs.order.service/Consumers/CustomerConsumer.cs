@@ -3,8 +3,8 @@ using bs.component.integrations.Customers;
 using bs.component.sharedkernal.Utility;
 using bs.order.domain.Entities;
 using bs.order.domain.Enums;
-using bs.order.domain.Models;
 using bs.order.domain.Repositories;
+using bs.order.service.Events;
 using MassTransit;
 using System;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace bs.order.service.Consumers
 {
-    public class CustomerConsumer : IConsumer<ICustomerEvent>
+    public class CustomerConsumer : IConsumer<ICustomerCreateEvent>
     {
         private readonly ICustomerRepository _customerRepository;
 
@@ -21,7 +21,7 @@ namespace bs.order.service.Consumers
             _customerRepository = customerRepository;
         }
 
-        public async Task Consume(ConsumeContext<ICustomerEvent> context)
+        public async Task Consume(ConsumeContext<ICustomerCreateEvent> context)
         {
             try
             {
@@ -42,23 +42,31 @@ namespace bs.order.service.Consumers
 
                 var result = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).Single();
 
-                await context.RespondAsync<ICustomerCreatedEvent>(new CustomerCreated
+                int cardDetailId = 0;
+
+                if (context.Message.CardDetails is not null)
+                {
+                    cardDetailId = result.CardDetails.First(x => x.CardNumberUnFormatted == context.Message.CardDetails.CardNumber).Id;
+                }
+                
+                await context.RespondAsync<ICustomerCreatedEvent>(new CustomerCreatedEvent
                 {
                     CorrelationId = context.Message.CorrelationId,
-                    CustomerId = result.Id
+                    CustomerId = result.Id,
+                    CardDetailId = cardDetailId
                 });
             }
             catch (Exception ex)
             {
-                await context.RespondAsync<IOrderProcessingFailedEvent>(new OrderProcessingFailed
+                await context.RespondAsync<IOrderProcessingFailedEvent>(new OrderProcessingFailedEvent
                 {
-                    CorrelationId = context.Message.CorrelationId,
+                    OrderRef = context.Message.CorrelationId,
                     ErrorMessage = ErrorUtility.BuildExceptionDetail(ex)
                 });
             }
         }
 
-        private Customer GetCustomerObject(ICustomerEvent context)
+        private Customer GetCustomerObject(ICustomerCreateEvent context)
         {
             var customer = new Customer(
                 context.FirstName
@@ -76,12 +84,13 @@ namespace bs.order.service.Consumers
                 , context.Consents.ContactByCall
                 , context.Consents.ContactByPost);
 
-            if (context.CardDetails != null && context.CardDetails.Any())
+            if (context.CardDetails != null)
             {
-                foreach (var cardDetail in context.CardDetails)
-                {
-                    customer.AddCardDetails(cardDetail.CardHolderName, cardDetail.CardNumber, cardDetail.Expiry, cardDetail.SecurityNumber, (CardType)cardDetail.CardType);
-                }
+                customer.AddCardDetails(context.CardDetails.CardHolderName
+                    , context.CardDetails.CardNumber
+                    , context.CardDetails.Expiry
+                    , context.CardDetails.SecurityNumber
+                    , (CardType)context.CardDetails.CardType);
             }
             return customer;
         }

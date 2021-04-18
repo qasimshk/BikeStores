@@ -16,6 +16,9 @@ namespace bs.order.infrastructure.Persistence.Configurations
             builder.Property(c => c.CardHolderName)
                 .IsRequired();
 
+            builder.Property(c => c.CardNumberUnFormatted)
+                .IsRequired();
+
             builder.Property(c => c.CardType)
                 .IsRequired();
 

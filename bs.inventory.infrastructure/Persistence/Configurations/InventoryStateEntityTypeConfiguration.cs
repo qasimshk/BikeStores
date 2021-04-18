@@ -17,6 +17,12 @@ namespace bs.inventory.infrastructure.Persistence.Configurations
 
             builder.Property(x => x.FailedOn);
 
+            builder.Property(x => x.BasketRef);
+
+            builder.Property(x => x.JsonBasketItems);
+
+            builder.Property(x => x.BasketPrice);
+
             builder.Property(x => x.BasketRef).IsRequired();
         }
     }

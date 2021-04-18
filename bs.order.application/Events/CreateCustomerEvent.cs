@@ -1,11 +1,10 @@
 ﻿using bs.component.integrations.Common;
 using bs.component.integrations.Customers;
 using System;
-using System.Collections.Generic;
 
-namespace bs.order.domain.Models
+namespace bs.order.application.Events
 {
-    public class CreateCustomer : ICustomerEvent
+    public class CreateCustomerEvent : ICustomerCreateEvent
     {
         public Guid CorrelationId { get; set; }
         public string FirstName { get; set; }
@@ -15,6 +14,6 @@ namespace bs.order.domain.Models
         public string EmailAddress { get; set; }
         public IAddressEvent BillingAddress { get; set; }
         public IConsentEvent Consents { get; set; }
-        public IList<ICardDetailEvent> CardDetails { get; set; }
+        public ICardDetailEvent CardDetails { get; set; }
     }
 }

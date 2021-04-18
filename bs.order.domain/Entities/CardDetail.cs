@@ -15,14 +15,15 @@ namespace bs.order.domain.Entities
             _payments = new List<Payment>();
         }
 
-        public CardDetail(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, int customerId)
+        public CardDetail(string cardHolderName, long cardNumber, DateTime expiration, int securityNumber, CardType cardType, int customerId) : this()
         {
             if (expiration.Date < DateTime.Now.Date)
             {
                 throw new OrderingDomainException("This card is no longer valid");
             }
 
-            _cardNumber = MaskCardNumber(cardNumber.ToString());
+            _cardNumber = cardNumber.ToString();
+            CardNumberUnFormatted = cardNumber;
             _expiration = expiration;
             _securityNumber = securityNumber;
 
@@ -41,8 +42,9 @@ namespace bs.order.domain.Entities
         public CardType CardType { get; private set; }
         public string CardHolderName { get; private set; }
 
-        public string GetCardNumber => _cardNumber;
+        public string GetCardNumber => MaskCardNumber(_cardNumber);
         public string GetExpiration => _expiration.ToString("MM/yy");
+        public long CardNumberUnFormatted { get; private set; }
 
         string MaskCardNumber(string cardNumber)
         {

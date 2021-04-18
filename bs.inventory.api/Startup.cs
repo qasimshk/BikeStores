@@ -25,10 +25,12 @@ namespace bs.inventory.api
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddServiceConfiguration(_configuration)
                 .AddApplicationMvc(ServiceName)
                 .AddApplicationDbContext<InventoryDbContext>(_configuration)
                 .AddHandlers()
                 .AddApplicationLogging(_configuration)
+                .AddEventBus()
                 .AddApplicationModules();
         }
         

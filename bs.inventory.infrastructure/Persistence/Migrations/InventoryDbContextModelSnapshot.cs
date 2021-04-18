@@ -101,6 +101,9 @@ namespace bs.inventory.infrastructure.Persistence.Migrations
                     b.Property<Guid>("CorrelationId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<double>("BasketPrice")
+                        .HasColumnType("float");
+
                     b.Property<Guid>("BasketRef")
                         .HasColumnType("uniqueidentifier");
 
@@ -116,6 +119,12 @@ namespace bs.inventory.infrastructure.Persistence.Migrations
 
                     b.Property<DateTime?>("FailedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("JsonBasketItems")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("OrderRef")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CorrelationId");
 

@@ -3,7 +3,7 @@ using bs.order.domain.Entities;
 using bs.order.infrastructure.Persistence.Context;
 using bs.order.service.Consumers;
 using bs.order.service.Infrastructure.Configurations;
-using bs.order.service.Workflow;
+using bs.order.service.Orchestrator;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.EntityFrameworkCoreIntegration;

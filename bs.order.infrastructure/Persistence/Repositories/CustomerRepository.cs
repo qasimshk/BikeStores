@@ -28,7 +28,10 @@ namespace bs.order.infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Customer>> FindByConditionAsync(Expression<Func<Customer, bool>> expression)
         {
-            return await _context.Customers.Where(expression).ToListAsync();
+            return await _context.Customers
+                .Include(cd => cd.CardDetails)
+                .Include(cs => cs.Consents)
+                .Where(expression).ToListAsync();
         }
     }
 }

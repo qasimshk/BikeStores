@@ -2,7 +2,5 @@
 
 namespace bs.order.domain.Models
 {
-    public record PaymentDto(
-        double Amount
-        , PaymentType PaymentType);
+    public record PaymentDto(PaymentType PaymentType);
 }

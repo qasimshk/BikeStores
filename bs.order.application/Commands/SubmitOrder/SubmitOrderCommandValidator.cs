@@ -83,62 +83,14 @@ namespace bs.order.application.Commands.SubmitOrder
             });
 
             // Payment
-            RuleFor(x => x.Payment.Amount)
-                .Cascade(CascadeMode.Stop)
-                .GreaterThan(0)
-                .NotEmpty().WithMessage("Please provide payment amount");
-            
             RuleFor(x => x.Payment.PaymentType)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Please provide payment type");
             
-            // Order
-            RuleFor(x => x.Order.DeliveryAddress.City)
+            // Basket
+            RuleFor(x => x.BasketRef)
                 .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Please provide order delivery address city")
-                .Length(2, 20).WithMessage("Delivery address city length is invalid - {TotalLength}")
-                .Must(MustBeValidName).WithMessage("Delivery address city contains invalid characters");
-
-            RuleFor(x => x.Order.DeliveryAddress.Country)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Please provide order delivery address country")
-                .Length(2, 20).WithMessage("Delivery address country length is invalid - {TotalLength}")
-                .Must(MustBeValidName).WithMessage("Delivery address country contains invalid characters");
-
-            RuleFor(x => x.Order.DeliveryAddress.PostCode)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Please provide order delivery address postcode")
-                .Length(2, 20).WithMessage("Delivery address postcode length is invalid - {TotalLength}");
-
-            RuleFor(x => x.Order.DeliveryAddress.Street)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Please provide order delivery address street")
-                .Length(2, 20).WithMessage("Delivery address street length is invalid - {TotalLength}")
-                .Must(MustBeValidName).WithMessage("Delivery address street contains invalid characters");
-            
-            // Order Items
-            RuleForEach(x => x.Order.OrderItemDtos)
-                .ChildRules(oi =>
-                {
-                    oi.RuleFor(x => x.Quantity)
-                        .GreaterThan(0)
-                        .NotEmpty()
-                        .WithMessage("Please provide product quantity");
-
-                    oi.RuleFor(x => x.ProductRef)
-                        .Cascade(CascadeMode.Stop)
-                        .NotEmpty().WithMessage("Please provide product reference");
-
-                    oi.RuleFor(x => x.ProductName)
-                        .Cascade(CascadeMode.Stop)
-                        .NotEmpty().WithMessage("Please provide product name");
-
-                    oi.RuleFor(x => x.Price)
-                        .Cascade(CascadeMode.Stop)
-                        .GreaterThan(0)
-                        .NotEmpty().WithMessage("Please provide product price");
-                })
-                .NotEmpty().WithMessage("Please provide order items");
+                .NotEmpty().WithMessage("Please provide basket reference");
         }
 
         private bool MustBeValidName(string name)

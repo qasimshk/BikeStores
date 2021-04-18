@@ -1,11 +1,9 @@
 ﻿using bs.component.integrations.Common;
 using System;
-using System.Collections.Generic;
-using System.Reflection.Metadata;
 
 namespace bs.component.integrations.Customers
 {
-    public interface ICustomerEvent
+    public interface ICustomerCreateEvent
     {
         public Guid CorrelationId { get; }
         public string FirstName { get; }
@@ -15,6 +13,6 @@ namespace bs.component.integrations.Customers
         public string EmailAddress { get; }
         public IAddressEvent BillingAddress { get; }
         public IConsentEvent Consents { get; }
-        public IList<ICardDetailEvent>? CardDetails { get; }
+        public ICardDetailEvent? CardDetails { get; }
     }
 }

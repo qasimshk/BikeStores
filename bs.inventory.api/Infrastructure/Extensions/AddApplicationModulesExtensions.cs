@@ -9,10 +9,15 @@ namespace bs.inventory.api.Infrastructure.Extensions
         public static IServiceCollection AddApplicationModules(this IServiceCollection services)
         {
             services.AddScoped<IBasketRepository, BasketRepository>();
+            
             services.AddScoped<IBrandRepository, BrandRepository>();
+            
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            
             services.AddScoped<IStoreRepository, StoreRepository>();
+            
             services.AddScoped<IProductRepository, ProductRepository>();
+            
             return services;
         }
     }
