@@ -9,22 +9,27 @@ using MassTransit;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace bs.order.service.Consumers
 {
     public class CustomerConsumer : IConsumer<ICustomerCreateEvent>
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly ILogger<CustomerConsumer> _logger;
 
-        public CustomerConsumer(ICustomerRepository customerRepository)
+        public CustomerConsumer(ICustomerRepository customerRepository, ILogger<CustomerConsumer> logger)
         {
             _customerRepository = customerRepository;
+            _logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ICustomerCreateEvent> context)
         {
             try
             {
+                _logger.LogInformation($"Customer Request received for order ref: {context.Message.CorrelationId}");
+
                 var customer = GetCustomerObject(context.Message);
 
                 var checkCustomer = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).ToList();
@@ -37,8 +42,10 @@ namespace bs.order.service.Consumers
                 {
                     _customerRepository.Update(checkCustomer.Single().UpdatePersonalDetails(customer));
                 }
-
+                
                 await _customerRepository.UnitOfWork.SaveEntitiesAsync();
+                
+                _logger.LogInformation($"Customer Request saved successfully for order ref: {context.Message.CorrelationId}");
 
                 var result = (await _customerRepository.FindByConditionAsync(c => c.EmailAddress == context.Message.EmailAddress)).Single();
 
@@ -58,6 +65,8 @@ namespace bs.order.service.Consumers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Customer process failed for order ref: {context.Message.CorrelationId} with error: {ErrorUtility.BuildExceptionDetail(ex)}");
+
                 await context.RespondAsync<IOrderProcessingFailedEvent>(new OrderProcessingFailedEvent
                 {
                     OrderRef = context.Message.CorrelationId,

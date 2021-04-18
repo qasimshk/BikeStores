@@ -6,7 +6,7 @@ namespace bs.component.integrations.Orders
     {
         public Guid ProductRef { get; }
         public string ProductName { get; }
-        public int Quantity { get; set; }
-        public double Price { get; set; }
+        public int Quantity { get; }
+        public double Price { get; }
     }
 }

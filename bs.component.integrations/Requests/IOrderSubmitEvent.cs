@@ -1,4 +1,5 @@
-﻿using bs.component.integrations.Customers;
+﻿using bs.component.integrations.Common;
+using bs.component.integrations.Customers;
 using bs.component.integrations.Payments;
 using System;
 
@@ -10,5 +11,6 @@ namespace bs.component.integrations.Requests
         public ICustomerCreateEvent Customer { get; }
         public IPaymentEvent Payment { get; }
         public Guid BasketRef { get; }
+        public IAddressEvent DeliveryAddress { get; }
     }
 }

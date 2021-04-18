@@ -16,7 +16,6 @@ namespace bs.order.infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(p => p.Amount)
-                .HasColumnType("decimal(5,2)")
                 .IsRequired();
 
             builder.Property(p => p.PaymentType)

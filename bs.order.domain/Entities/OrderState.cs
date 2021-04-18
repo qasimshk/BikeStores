@@ -20,5 +20,6 @@ namespace bs.order.domain.Entities
         public int PaymentType { get; set; }
         public string JsonOrderItems { get; set; }
         public string JsonCardDetails { get; set; }
+        public string JsonDeliveryAddress { get; set; }
     }
 }

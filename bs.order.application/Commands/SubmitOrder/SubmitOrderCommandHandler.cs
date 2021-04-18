@@ -22,6 +22,8 @@ namespace bs.order.application.Commands.SubmitOrder
 
         public async Task<SubmitOrderResultDto> Handle(SubmitOrderCommand request, CancellationToken cancellationToken)
         {   
+            //TODO: Store order submit payload before processing in Db storage.
+
             if (request.Customer.CardDetails != null)
             {
                 _cardDetails = new AddCardDetailEvent
@@ -65,6 +67,13 @@ namespace bs.order.application.Commands.SubmitOrder
                 Payment = new PaymentEvent
                 {
                     PaymentType = (int)request.Payment.PaymentType
+                },
+                DeliveryAddress = new AddAddress
+                {
+                    City = request.DeliveryAddress.City,
+                    Country = request.DeliveryAddress.Country,
+                    PostCode = request.DeliveryAddress.PostCode,
+                    Street = request.DeliveryAddress.Street
                 }
             }, cancellationToken);
 

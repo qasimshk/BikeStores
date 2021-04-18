@@ -10,6 +10,7 @@ namespace bs.order.application.Commands.SubmitOrder
         public Guid BasketRef { get; }
         public CustomerDto Customer { get; }
         public PaymentDto Payment { get; }
+        public AddressDto DeliveryAddress { get; }
         
         public SubmitOrderCommand(SubmitOrderDto submitOrder)
         {
@@ -17,6 +18,7 @@ namespace bs.order.application.Commands.SubmitOrder
             Customer = submitOrder.Customer;
             Payment = submitOrder.PaymentRequest;
             BasketRef = submitOrder.BasketRef;
+            DeliveryAddress = submitOrder.DeliveryAddress;
         }
     }
 }

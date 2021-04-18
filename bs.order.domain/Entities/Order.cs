@@ -4,7 +4,9 @@ using bs.order.domain.Events;
 using bs.order.domain.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using bs.component.sharedkernal.Abstractions;
+using bs.order.domain.Models;
 
 namespace bs.order.domain.Entities
 {
@@ -12,7 +14,7 @@ namespace bs.order.domain.Entities
     {
         protected Order() { }
 
-        public Order(Guid orderRef, int paymentId, int customerId, Address deliveryAddress, List<OrderItem> orderItems)
+        public Order(Guid orderRef, int paymentId, int customerId, Address deliveryAddress, List<OrderItemEntry> orderItems) : this()
         {
             _paymentId = paymentId;
             _customerId = customerId;
@@ -21,12 +23,11 @@ namespace bs.order.domain.Entities
             Status = OrderStatus.Paid;
             DeliveryAddress = deliveryAddress;
 
+            OrderItems = new List<OrderItem>();
+            
             foreach (var item in orderItems)
             {
-                OrderItems = new List<OrderItem>
-                {
-                    new(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id)
-                };
+                OrderItems.Add(new OrderItem(item.ProductRef, item.ProductName, item.Quantity, item.IndividualPrice, Id));
             }
         }
 

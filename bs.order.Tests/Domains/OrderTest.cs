@@ -1,6 +1,6 @@
 ﻿using bs.order.domain.Entities;
 using bs.order.domain.Enums;
-using bs.order.domain.Events;
+using bs.order.domain.Models;
 using bs.order.infrastructure.Persistence.Context;
 using bs.order.Tests.Seed;
 using FluentAssertions;
@@ -39,13 +39,12 @@ namespace bs.order.Tests.Domains
                     mockOrder.DeliveryAddress.City,
                     mockOrder.DeliveryAddress.Country,
                     mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
+                new List<OrderItemEntry>
                 {
                     new(mockOrderItem.ProductRef,
                         mockOrderItem.ProductName,
                         mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
+                        mockOrderItem.IndividualPrice)
                 });
 
             _context.Orders.Add(order);
@@ -76,13 +75,12 @@ namespace bs.order.Tests.Domains
                     mockOrder.DeliveryAddress.City,
                     mockOrder.DeliveryAddress.Country,
                     mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
+                new List<OrderItemEntry>
                 {
                     new(mockOrderItem.ProductRef,
                         mockOrderItem.ProductName,
                         mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
+                        mockOrderItem.IndividualPrice)
                 });
 
             _context.Orders.Add(order);
@@ -113,13 +111,12 @@ namespace bs.order.Tests.Domains
                     mockOrder.DeliveryAddress.City,
                     mockOrder.DeliveryAddress.Country,
                     mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
+                new List<OrderItemEntry>
                 {
                     new(mockOrderItem.ProductRef,
                         mockOrderItem.ProductName,
                         mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
+                        mockOrderItem.IndividualPrice)
                 });
 
             _context.Orders.Add(order);
@@ -150,13 +147,12 @@ namespace bs.order.Tests.Domains
                     mockOrder.DeliveryAddress.City,
                     mockOrder.DeliveryAddress.Country,
                     mockOrder.DeliveryAddress.PostCode),
-                new List<OrderItem>
+                new List<OrderItemEntry>
                 {
                     new(mockOrderItem.ProductRef,
                         mockOrderItem.ProductName,
                         mockOrderItem.Quantity,
-                        mockOrderItem.IndividualPrice,
-                        mockOrderItem.OrderId)
+                        mockOrderItem.IndividualPrice)
                 });
 
             _context.Orders.Add(order);
