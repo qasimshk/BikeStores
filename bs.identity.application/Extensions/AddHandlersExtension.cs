@@ -5,6 +5,7 @@ using System.Reflection;
 using FluentValidation;
 using bs.identity.infrastructure.Persistence.Queries.GetEmployeeInformation;
 using bs.identity.infrastructure.Persistence.Queries.SearchEmployees;
+using bs.identity.application.Mapping;
 
 namespace bs.identity.application.Extensions
 {
@@ -16,7 +17,7 @@ namespace bs.identity.application.Extensions
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             
-            services.AddAutoMapper(typeof(GetEmployeeInformationQueryMapper).GetTypeInfo().Assembly);
+            services.AddAutoMapper(typeof(MappingProfile).GetTypeInfo().Assembly);
             services.AddMediatR(typeof(GetEmployeeInformationQueryHandler).GetTypeInfo().Assembly);
             services.AddValidatorsFromAssembly(typeof(SearchEmployeesQueryValidator).GetTypeInfo().Assembly);
 
